@@ -573,6 +573,176 @@
       letter-spacing: 0.15em;
     }
 
+    /* ===== UPDATE POPUP ===== */
+    #update-popup {
+      display: none;
+      position: fixed;
+      top: 16px; left: 50%; transform: translateX(-50%);
+      z-index: 900;
+      background: var(--cover);
+      border: 1px solid var(--gold);
+      border-radius: 10px;
+      padding: 14px 20px;
+      color: var(--gold-pale);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.84rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      align-items: center;
+      gap: 14px;
+      min-width: 280px;
+      animation: slideDown 0.3s ease;
+    }
+    #update-popup.show { display: flex; }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateX(-50%) translateY(-16px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    .update-popup-text { flex: 1; }
+    .update-popup-btn {
+      background: var(--gold);
+      color: var(--cover-dark);
+      border: none;
+      border-radius: 5px;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .update-popup-dismiss {
+      background: none; border: none;
+      color: rgba(245,214,128,0.5);
+      font-size: 1.2rem; cursor: pointer; line-height: 1;
+    }
+
+    /* ===== 振り返りページ ===== */
+    .review-page { background: #F0EDD8; }
+    .review-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px;
+    }
+    .review-header-badge {
+      background: var(--cover);
+      color: var(--gold-pale);
+      font-family: 'Klee One', cursive;
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.1em;
+    }
+    .review-title {
+      font-family: 'Klee One', cursive;
+      font-size: 1.3rem;
+      color: var(--cover-mid);
+      letter-spacing: 0.1em;
+    }
+    .review-divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      margin: 6px 0 24px;
+    }
+    /* AI学習度 */
+    .review-section { margin-bottom: 28px; }
+    .review-section-head {
+      font-family: 'Klee One', cursive;
+      font-size: 0.88rem;
+      color: var(--gold);
+      border-bottom: 1px dashed rgba(184,134,11,0.3);
+      padding-bottom: 5px;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
+    }
+    .level-bar-wrap {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 8px;
+    }
+    .level-bar-bg {
+      flex: 1; height: 10px;
+      background: rgba(0,0,0,0.1);
+      border-radius: 5px; overflow: hidden;
+    }
+    .level-bar-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--gold), var(--gold-pale));
+      border-radius: 5px;
+      transition: width 1s ease;
+    }
+    .level-label {
+      font-family: 'Klee One', cursive;
+      font-size: 0.82rem;
+      color: var(--cover-mid);
+      white-space: nowrap;
+    }
+    .level-comment {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.84rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .skill-tag {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.72rem;
+      background: var(--cover);
+      color: var(--gold-pale);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    /* レコメンド */
+    .rec-card {
+      background: white;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      border-left: 3px solid var(--gold);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .rec-card-title {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .rec-card-reason {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.65;
+    }
+    /* 使い方のコツ */
+    .tip-item {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.83rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      padding: 8px 0;
+      border-bottom: 1px dashed rgba(0,0,0,0.08);
+    }
+    .tip-item:last-child { border-bottom: none; }
+
+    /* もくじ振り返りリンク */
+    .toc-review-link {
+      display: flex; align-items: center;
+      padding: 10px 12px;
+      margin: 4px 0 8px;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--cover-dark);
+      background: linear-gradient(to right, rgba(218,165,32,0.22), rgba(218,165,32,0.06));
+      border-left: 3px solid var(--gold);
+      border-radius: 0 6px 6px 0;
+      gap: 8px;
+      letter-spacing: 0.03em;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .toc-review-link:hover {
+      background: linear-gradient(to right, rgba(218,165,32,0.35), rgba(218,165,32,0.1));
+      border-color: var(--gold-light);
+    }
+
     /* ===== PWA INSTALL BANNER ===== */
     #install-banner {
       position: fixed;
@@ -667,6 +837,13 @@
     <!-- ▼ ENTRY PAGES (JS generated) ▼ -->
     <div id="entry-container"></div>
 
+  </div>
+
+  <!-- Update Popup -->
+  <div id="update-popup">
+    <span class="update-popup-text">📢 コンテンツが更新されました</span>
+    <button class="update-popup-btn" onclick="applyUpdate()">今すぐ更新</button>
+    <button class="update-popup-dismiss" onclick="document.getElementById('update-popup').classList.remove('show')">×</button>
   </div>
 
   <!-- PWA Install Banner -->
@@ -826,6 +1003,41 @@ const weeklyData = [
 ];
 
 /* ================================================================
+   WEEKLY REVIEW DATA
+================================================================ */
+const weeklyReviews = [
+  {
+    week: 3,
+    learningLevel: 4,
+    levelLabel: "急成長期",
+    levelComment: "3月からAIをスタートして約3週間。この1週間でSupabase・Firebase・Netlify環境変数・python-docxと4種の新技術を同時に経験しました。「言われた通りやる」から「仕組みを少しずつ理解する」フェーズに入ってきています。",
+    techAcquired: ["Supabase", "PostgreSQL", "Firebase", "Firestore", "環境変数", "python-docx", "自動デプロイ"],
+    recommendations: [
+      {
+        icon: "🌿",
+        title: "GitHubのブランチ操作を覚える",
+        reason: "現在はmainブランチに直接コミットしています。作業ごとにブランチを切る習慣をつけると、失敗しても安全に元に戻せます。「git checkout -b 機能名」の一行から始めましょう。"
+      },
+      {
+        icon: "🔧",
+        title: "既存アプリを自分で少し改造してみる",
+        reason: "Claudeの指示通りに実装できています。次のステップは「ここをこう変えたい」と自分で考えて試すこと。ボタンの色変更や文言修正など、小さな改造から自走力が生まれます。"
+      },
+      {
+        icon: "🔑",
+        title: "APIキー管理のルールを整理する",
+        reason: "今週複数サービスのAPIキーを扱いました。「.env.localは絶対GitHubに上げない」「公開鍵と秘密鍵の違い」を一度Claudeに説明してもらうと、セキュリティの感覚が身につきます。"
+      }
+    ],
+    tips: [
+      { icon: "💡", text: "エラーメッセージはそのままClaudeに貼るだけでOK。原因と解決策を即座に教えてくれます。コピペを恐れずに。" },
+      { icon: "💡", text: "新しいサービスを使う前に「○○を初心者にわかりやすく説明して」と聞くと全体像が掴め、迷子になりにくくなります。" },
+      { icon: "💡", text: "「なぜこのコードはこう書くの？」と一言添えるだけで、ただのコピペが本当の理解に変わります。" }
+    ]
+  }
+];
+
+/* ================================================================
    UTILITY
 ================================================================ */
 const diffLabels = ['', 'かんたん', 'まあまあ', 'ちょっと難しい', '難しい', 'かなり難しい'];
@@ -871,7 +1083,61 @@ function renderAll() {
   document.getElementById('rings-toc').innerHTML = makeRings();
   renderTOC();
   renderEntries();
+  renderReviews();
   renderCoverWeeks();
+}
+
+function renderReviews() {
+  const container = document.getElementById('entry-container');
+  const reviewHTML = weeklyReviews.map(r => {
+    const pct = (r.learningLevel / 5) * 100;
+    const recs = r.recommendations.map(rc => `
+      <div class="rec-card">
+        <div class="rec-card-title">${rc.icon} ${rc.title}</div>
+        <div class="rec-card-reason">${rc.reason}</div>
+      </div>`).join('');
+    const tips = r.tips.map(t => `
+      <div class="tip-item">${t.icon} ${t.text}</div>`).join('');
+    const skills = r.techAcquired.map(s => `<span class="skill-tag">${s}</span>`).join('');
+    return `
+      <div id="review-${r.week}" class="inner-page review-page">
+        <div class="entry-content">
+          <div class="review-header">
+            <span class="review-header-badge">Week ${r.week} · ${weekRange(r.week)}</span>
+          </div>
+          <div class="review-title">📊 振り返り ＆ レコメンド</div>
+          <div class="review-divider"></div>
+
+          <div class="review-section">
+            <div class="review-section-head">🧠 AI学習度</div>
+            <div class="level-bar-wrap">
+              <div class="level-bar-bg">
+                <div class="level-bar-fill" style="width:${pct}%"></div>
+              </div>
+              <span class="level-label">${r.levelLabel} ★${r.learningLevel}/5</span>
+            </div>
+            <div class="level-comment">${r.levelComment}</div>
+            <div class="skill-tags">${skills}</div>
+          </div>
+
+          <div class="review-section">
+            <div class="review-section-head">🎯 次に取り組むべきこと</div>
+            ${recs}
+          </div>
+
+          <div class="review-section">
+            <div class="review-section-head">✨ Claudeをもっと活かすコツ</div>
+            ${tips}
+          </div>
+
+          <div class="bottom-nav">
+            <button class="bottom-nav-btn" onclick="navigate(-1)">◀ 前のページ</button>
+            <button class="bottom-nav-btn" onclick="navigate(1)">次のページ ▶</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+  container.insertAdjacentHTML('beforeend', reviewHTML);
 }
 
 function renderCoverWeeks() {
@@ -930,12 +1196,18 @@ function renderTOC() {
           </div>
         </div>
       </li>`).join('');
+    const review = weeklyReviews.find(r => r.week === w);
+    const reviewLink = review ? `
+      <li class="toc-review-link" onclick="goToReview(${w})">
+        📊 Week ${w} 振り返り・レコメンド
+      </li>` : '';
     return `
       <li class="toc-week-header">
         <span class="toc-week-label">Week ${w}</span>
         <span class="toc-week-range">${weekRange(w)}</span>
       </li>
-      ${items}`;
+      ${items}
+      ${reviewLink}`;
   }).join('');
 }
 
@@ -1094,7 +1366,16 @@ let pages = [];
 let current = null;
 
 function buildPages() {
-  pages = ['contents', ...data.map(e => e.id)];
+  const sorted = [...data].sort((a,b) => new Date(a.date) - new Date(b.date));
+  const result = ['contents'];
+  sorted.forEach((e, i) => {
+    result.push(e.id);
+    const nextWeek = sorted[i+1]?.week;
+    if (e.week !== nextWeek && weeklyReviews.find(r => r.week === e.week)) {
+      result.push(`review-${e.week}`);
+    }
+  });
+  pages = result;
 }
 
 function hideAll() {
@@ -1159,7 +1440,18 @@ function navigate(dir) {
   if (next < 0 || next >= pages.length) return;
   const target = pages[next];
   if (target === 'contents') openBook();
+  else if (typeof target === 'string' && target.startsWith('review-')) goToReview(parseInt(target.split('-')[1]));
   else goToEntry(target);
+}
+
+function goToReview(weekNum) {
+  hideAll();
+  const el = document.getElementById(`review-${weekNum}`);
+  if (el) el.classList.add('active');
+  current = `review-${weekNum}`;
+  showNavBar();
+  updateNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 /* ================================================================
@@ -1188,9 +1480,24 @@ function dismissInstall() {
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .catch(err => console.warn('SW registration failed:', err));
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            document.getElementById('update-popup').classList.add('show');
+          }
+        });
+      });
+    }).catch(err => console.warn('SW registration failed:', err));
   });
+}
+
+function applyUpdate() {
+  if (!navigator.serviceWorker.controller) return;
+  navigator.serviceWorker.controller.postMessage('skipWaiting');
+  navigator.serviceWorker.addEventListener('controllerchange', () => location.reload());
+  document.getElementById('update-popup').classList.remove('show');
 }
 
 /* ================================================================

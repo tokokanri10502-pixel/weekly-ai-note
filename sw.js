@@ -1,20 +1,20 @@
 /* ====================================================
-   Service Worker — 週刊 AI実験ノート
-   オフライン対応キャッシュ
+   Service Worker — 週刊 AIノート
+   更新検知・オフライン対応
 ==================================================== */
-const CACHE_NAME = 'ai-note-v1';
+const CACHE_NAME = 'ai-note-v3';
 const PRECACHE = [
   './',
   './index.html',
-  './manifest.json'
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
-/* インストール時にキャッシュ */
+/* インストール時にキャッシュ（skipWaitingはしない → 更新ポップアップ後に手動で） */
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(PRECACHE))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE))
   );
 });
 
@@ -23,12 +23,15 @@ self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys
-          .filter(k => k !== CACHE_NAME)
-          .map(k => caches.delete(k))
+        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
       )
     ).then(() => self.clients.claim())
   );
+});
+
+/* メッセージ受信 → skipWaiting で即時切り替え */
+self.addEventListener('message', event => {
+  if (event.data === 'skipWaiting') self.skipWaiting();
 });
 
 /* ネットワーク優先 → 失敗したらキャッシュ */
