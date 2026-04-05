@@ -1,0 +1,26 @@
+{
+  "name": "週刊 AIノート",
+  "short_name": "週刊AIノート",
+  "description": "Claudeと一緒に学んだことの週次記録",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1a1a1a",
+  "theme_color": "#4A3728",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"]
+}

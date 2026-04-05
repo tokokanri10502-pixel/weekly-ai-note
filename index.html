@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>週刊 AIノート</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4A3728">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AIノート">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & ROOT ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --paper:       #FDF6E3;
+      --paper-dark:  #F0E8CC;
+      --paper-cream: #FAF0D7;
+      --line-color:  rgba(100, 149, 237, 0.22);
+      --margin-color:rgba(210, 70, 70, 0.35);
+      --cover-dark:  #1E0F08;
+      --cover:       #2C1810;
+      --cover-mid:   #4A2E20;
+      --gold:        #B8860B;
+      --gold-light:  #DAA520;
+      --gold-pale:   #F5D680;
+      --text:        #2A2A2A;
+      --text-mid:    #555;
+      --text-light:  #888;
+      --ring-color:  #B0B0B0;
+      --tag-bg:      #E8F4F8;
+      --tag-text:    #2A6496;
+      --accent-blue: #4A80B0;
+    }
+
+    body {
+      background: radial-gradient(ellipse at top, #2a1a10 0%, #111 100%);
+      min-height: 100vh;
+      font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', serif;
+      font-weight: 500;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 60px;
+    }
+
+    /* ===== APP HEADER ===== */
+    .app-header {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--gold-light);
+      font-family: 'Klee One', cursive;
+    }
+    .app-header h1 {
+      font-size: 1.3rem;
+      letter-spacing: 0.35em;
+      font-weight: 600;
+    }
+    .app-header .sub {
+      font-size: 0.72rem;
+      color: rgba(218, 165, 32, 0.55);
+      letter-spacing: 0.25em;
+      margin-top: 4px;
+    }
+    .app-header:hover h1 { color: #F5D680; }
+    .app-header { transition: opacity 0.2s; }
+    .app-header:hover { opacity: 0.85; }
+
+    /* ===== BOOK WRAPPER ===== */
+    .book {
+      width: 100%;
+      max-width: 820px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow:
+        -8px 0 20px rgba(0,0,0,0.6),
+        0 16px 48px rgba(0,0,0,0.7),
+        inset -3px 0 10px rgba(0,0,0,0.25);
+      position: relative;
+    }
+
+    /* Spine — 非表示 */
+    .spine { display: none; }
+
+    /* ===== COVER PAGE ===== */
+    #cover-page {
+      cursor: pointer;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 50px 60px 80px;
+      background:
+        linear-gradient(145deg, #1E0F08 0%, #3D2010 35%, #2C1810 60%, #1A0C06 100%);
+      position: relative;
+      transition: filter 0.3s;
+    }
+    #cover-page:hover { filter: brightness(1.08); }
+
+    /* Embossed border */
+    #cover-page::before {
+      content: '';
+      position: absolute;
+      top: 24px; left: 24px; right: 24px; bottom: 24px;
+      border: 1px solid rgba(218,165,32,0.25);
+      pointer-events: none;
+    }
+    #cover-page::after {
+      content: '';
+      position: absolute;
+      top: 28px; left: 28px; right: 28px; bottom: 28px;
+      border: 1px solid rgba(218,165,32,0.10);
+      pointer-events: none;
+    }
+
+    .cover-icon { font-size: 68px; margin-bottom: 28px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
+    .cover-title {
+      font-family: 'Klee One', cursive;
+      font-size: 2.1rem;
+      color: var(--gold-pale);
+      text-align: center;
+      letter-spacing: 0.25em;
+      line-height: 1.6;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5), 0 0 20px rgba(218,165,32,0.2);
+    }
+    .cover-divider {
+      width: 120px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-light), transparent);
+      margin: 20px auto;
+    }
+    .cover-subtitle {
+      font-size: 0.78rem;
+      color: rgba(218,165,32,0.55);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+    }
+    .cover-author {
+      position: absolute;
+      bottom: 44px; right: 44px;
+      font-size: 0.72rem;
+      color: rgba(218,165,32,0.4);
+      letter-spacing: 0.2em;
+    }
+    /* Cover week buttons */
+    .cover-weeks {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+    .cover-week-btn {
+      padding: 8px 20px;
+      border: 1px solid rgba(218,165,32,0.4);
+      border-radius: 5px;
+      background: rgba(218,165,32,0.07);
+      color: rgba(218,165,32,0.85);
+      font-family: 'Klee One', cursive;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .cover-week-btn:hover {
+      background: rgba(218,165,32,0.18);
+      border-color: rgba(218,165,32,0.7);
+    }
+    .cover-week-btn .week-range {
+      display: block;
+      font-size: 0.65rem;
+      opacity: 0.6;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .cover-cta {
+      margin-top: 28px;
+      padding: 10px 28px;
+      border: 1px solid rgba(218,165,32,0.45);
+      color: rgba(218,165,32,0.75);
+      font-family: 'Klee One', cursive;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      animation: coverPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes coverPulse {
+      0%, 100% { opacity: 0.5; border-color: rgba(218,165,32,0.3); }
+      50% { opacity: 1; border-color: rgba(218,165,32,0.7); }
+    }
+
+    /* ===== INNER PAGE (shared base) ===== */
+    .inner-page {
+      display: none;
+      background: var(--paper);
+      padding: 44px 44px 44px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .inner-page.active { display: block; }
+
+    /* Notebook lines */
+    .inner-page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          transparent 0px,
+          transparent 31px,
+          var(--line-color) 31px,
+          var(--line-color) 32px
+        );
+      background-size: 100% 32px;
+      pointer-events: none;
+    }
+
+    /* Left margin line — 非表示 */
+    .inner-page::after { display: none; }
+
+    /* ===== RINGS — 非表示 ===== */
+    .rings { display: none; }
+    .rings-hidden {
+      position: absolute;
+      left: 28px; top: 0; bottom: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 28px 0;
+    }
+    .ring {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #E0E0E0, #909090, #D0D0D0);
+      box-shadow:
+        0 2px 4px rgba(0,0,0,0.35),
+        inset 0 1px 3px rgba(255,255,255,0.4),
+        inset 0 -1px 2px rgba(0,0,0,0.2);
+    }
+
+    /* ===== TABLE OF CONTENTS ===== */
+    #contents-page .page-heading {
+      font-family: 'Klee One', cursive;
+      font-size: 1.55rem;
+      color: var(--cover-mid);
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--gold);
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .toc-list { list-style: none; position: relative; z-index: 1; }
+    .toc-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 8px;
+      border-bottom: 1px dashed rgba(0,0,0,0.12);
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.2s, padding-left 0.2s;
+    }
+    .toc-item:hover { background: rgba(218,165,32,0.08); padding-left: 16px; }
+
+    .toc-week-num {
+      font-family: 'Klee One', cursive;
+      font-size: 1.05rem;
+      color: var(--gold);
+      min-width: 72px;
+      font-weight: 600;
+    }
+    .toc-info { flex: 1; }
+    .toc-title { font-size: 0.92rem; font-weight: 600; color: var(--text); line-height: 1.4; font-family: 'Noto Sans JP', sans-serif; }
+    .toc-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+    .toc-date { font-size: 0.72rem; color: var(--text-light); font-family: 'Noto Sans JP', sans-serif; }
+    .toc-badge {
+      font-size: 0.68rem;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border: 1px solid rgba(42,100,150,0.18);
+      white-space: nowrap;
+    }
+    /* TOC week header */
+    .toc-week-header {
+      display: flex; align-items: baseline; gap: 10px;
+      padding: 16px 0 6px;
+      border-bottom: 2px solid rgba(184,134,11,0.3);
+      margin-top: 8px;
+      list-style: none;
+    }
+    .toc-week-label {
+      font-family: 'Klee One', cursive;
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--gold);
+    }
+    .toc-week-range {
+      font-size: 0.72rem; color: var(--text-light);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+      position: relative;
+      z-index: 1;
+    }
+    .empty-state .big-emoji { font-size: 52px; display: block; margin-bottom: 16px; }
+    .empty-state p { font-size: 0.9rem; line-height: 2; }
+
+    /* ===== ENTRY PAGE ===== */
+    .entry-content { position: relative; z-index: 1; }
+
+    .week-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--cover);
+      color: var(--gold-pale);
+      font-family: 'Klee One', cursive;
+      font-size: 0.72rem;
+      padding: 4px 14px;
+      border-radius: 0 0 10px 10px;
+      letter-spacing: 0.15em;
+      margin-bottom: 18px;
+    }
+
+    .entry-title {
+      font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--cover-mid);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .entry-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .entry-date { font-size: 0.78rem; color: var(--text-light); }
+    .tag {
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border: 1px solid rgba(42,100,150,0.18);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .tag:hover { background: #d4eaf5; }
+    .tag-highlight {
+      background: #FFE066 !important;
+      color: #5A3A00 !important;
+      border-color: #C8A800 !important;
+      font-weight: 700;
+    }
+
+    /* Section */
+    .section { margin-bottom: 26px; }
+    .section-head {
+      font-family: 'Klee One', cursive;
+      font-size: 0.8rem;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-head::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(184,134,11,0.35), transparent);
+    }
+
+    .section p {
+      font-size: 0.88rem;
+      line-height: 2.1;
+      color: var(--text);
+      font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+      font-weight: 400;
+    }
+
+    /* Explanation box — ポイント解説 (Noto Sans JP) */
+    .expl-box {
+      background: rgba(255,255,255,0.55);
+      border-left: 3px solid var(--gold-light);
+      padding: 16px 18px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 12px;
+      backdrop-filter: blur(2px);
+      font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+    }
+    .expl-box h4 {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--cover-mid);
+      margin-bottom: 10px;
+    }
+    .expl-box p {
+      font-size: 0.86rem;
+      line-height: 2.0;
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* Key points */
+    .key-list { list-style: none; margin-top: 10px; }
+    .key-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 0.86rem;
+      line-height: 1.8;
+      padding: 6px 0;
+      border-bottom: 1px dotted rgba(0,0,0,0.08);
+      color: var(--text);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 400;
+    }
+    .key-list li::before { content: '✏'; color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+
+    /* Text highlight on tag click */
+    mark.text-mark {
+      display: inline;
+      background: #FFE066;
+      color: #5A3A00;
+      border-radius: 2px;
+      padding: 1px 2px;
+      font-weight: 700;
+      font-style: normal;
+      line-height: inherit;
+      vertical-align: baseline;
+    }
+
+    /* Difficulty stars */
+    .diff-row { display: flex; align-items: center; gap: 5px; }
+    .star { font-size: 1.15rem; }
+    .star.on  { color: var(--gold-light); }
+    .star.off { color: #D8D0C0; }
+    .diff-label { font-size: 0.8rem; color: var(--text-light); margin-left: 6px; }
+
+    /* Bottom nav */
+    .bottom-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px dashed rgba(0,0,0,0.12);
+    }
+    .bottom-nav-btn {
+      padding: 9px 20px;
+      background: var(--cover);
+      color: var(--gold-pale);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .bottom-nav-btn:hover:not(:disabled) { background: var(--cover-mid); transform: translateY(-1px); }
+    .bottom-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+    /* Memo box */
+    .memo-box {
+      width: 100%;
+      min-height: 90px;
+      background: rgba(255,255,255,0.6);
+      border: 1px dashed rgba(100,149,237,0.45);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.87rem;
+      line-height: 2.0;
+      font-family: 'Noto Serif JP', serif;
+      color: var(--text);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      box-sizing: border-box;
+    }
+    .memo-box:focus {
+      border-color: rgba(184,134,11,0.5);
+      background: rgba(255,255,255,0.8);
+    }
+    .memo-box::placeholder { color: #bbb; font-style: italic; }
+    .memo-saved {
+      font-size: 0.7rem;
+      color: rgba(184,134,11,0.7);
+      margin-top: 4px;
+      text-align: right;
+      min-height: 16px;
+    }
+
+    /* Tools */
+    .tool-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* ===== TOP NAV (タイトル上) ===== */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .top-nav-btn {
+      background: none;
+      border: 1px solid rgba(74,46,32,0.25);
+      border-radius: 5px;
+      padding: 5px 13px;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.78rem;
+      color: var(--cover-mid);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .top-nav-btn:hover:not(:disabled) { background: rgba(218,165,32,0.12); }
+    .top-nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+    .top-nav-indicator {
+      font-family: 'Klee One', cursive;
+      font-size: 0.72rem;
+      color: var(--text-light);
+    }
+
+    /* ===== NAVIGATION BAR (タイトル下) ===== */
+    .nav-bar {
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 820px;
+      padding: 6px 8px;
+      margin-bottom: 8px;
+    }
+    .nav-bar.visible { display: flex; }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      background: var(--cover);
+      color: var(--gold-pale);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .nav-btn:hover:not(:disabled) { background: var(--cover-mid); transform: translateY(-1px); }
+    .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+    .page-indicator {
+      font-family: 'Klee One', cursive;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      letter-spacing: 0.15em;
+    }
+
+    /* ===== PWA INSTALL BANNER ===== */
+    #install-banner {
+      position: fixed;
+      bottom: 24px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--cover-dark);
+      color: var(--gold-pale);
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 1px solid rgba(218,165,32,0.35);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+      font-size: 0.82rem;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      gap: 14px;
+      max-width: calc(100vw - 32px);
+      white-space: nowrap;
+    }
+    .install-btn {
+      padding: 6px 16px;
+      background: var(--gold);
+      color: var(--cover-dark);
+      border: none;
+      border-radius: 5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.82rem;
+    }
+    .install-dismiss {
+      background: none;
+      border: none;
+      color: rgba(218,165,32,0.5);
+      font-size: 1.3rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 580px) {
+      body { padding: 16px 8px 60px; }
+      .inner-page { padding: 36px 18px; }
+      .nav-bar { padding: 6px 18px; }
+      .entry-title { font-size: 1.2rem; }
+      .cover-title { font-size: 1.65rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header" onclick="openBook()" style="cursor:pointer" title="もくじに戻る">
+    <h1>📔 週刊 AIノート</h1>
+    <p class="sub">Claude と歩む、毎週の学びの記録</p>
+  </header>
+
+  <!-- NAV BAR (タイトル下) -->
+  <div class="nav-bar" id="nav-bar">
+    <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">◀ 前</button>
+    <span class="page-indicator" id="page-indicator"></span>
+    <button class="nav-btn" id="next-btn" onclick="navigate(1)">次 ▶</button>
+  </div>
+
+  <!-- Book -->
+  <div class="book" id="book">
+    <div class="spine"><span class="spine-text">週刊 AIノート</span></div>
+
+    <!-- ▼ COVER PAGE ▼ -->
+    <div id="cover-page" onclick="openBook()">
+      <div class="cover-icon">📔</div>
+      <div class="cover-title">週刊<br>AIノート</div>
+      <div class="cover-divider"></div>
+      <div class="cover-subtitle">Weekly Learning Log with Claude</div>
+      <div class="cover-weeks" id="cover-weeks"></div>
+      <div class="cover-cta">▸ もくじを開く</div>
+      <div class="cover-author">by OM</div>
+    </div>
+
+    <!-- ▼ TABLE OF CONTENTS ▼ -->
+    <div id="contents-page" class="inner-page">
+      <div class="rings" id="rings-toc"></div>
+      <h2 class="page-heading">📋 もくじ</h2>
+      <ul class="toc-list" id="toc-list"></ul>
+      <div id="empty-toc" style="display:none">
+        <div class="empty-state">
+          <span class="big-emoji">✏️</span>
+          <p>まだエントリーがありません。<br>Claudeに「今週の学びを追加して」と伝えてみましょう。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ▼ ENTRY PAGES (JS generated) ▼ -->
+    <div id="entry-container"></div>
+
+  </div>
+
+  <!-- PWA Install Banner -->
+  <div id="install-banner">
+    <span>📱 ホーム画面に追加できます</span>
+    <button class="install-btn" id="install-btn">追加する</button>
+    <button class="install-dismiss" onclick="dismissInstall()">×</button>
+  </div>
+
+<script>
+/* ================================================================
+   DATA — ここに毎週 Claude がエントリーを追加します
+   （新しい週は配列の先頭か末尾に追記）
+================================================================ */
+const weeklyData = [
+  {
+    id: 5,
+    date: "2026-03-29",
+    title: "Supabaseでデータベースを作り、Next.jsアプリと繋いだ",
+    emoji: "🗄️",
+    category: "Supabase / Next.js",
+    tags: ["Supabase", "データベース", "SQL", "Next.js", "Netlify", "環境変数"],
+    summary: "本の読書管理アプリ「Book Memories」をSupabaseのリアルデータベースと接続。SQLでテーブルを作り、APIキーの設定から本番デプロイまでをClaudeと一緒にやり遂げた。",
+    what_i_did: "本をカメラでスキャンして管理するNext.jsアプリを作っていたが、データがダミーのまま。Claudeに頼んで本物のデータベース（Supabase）と接続する作業をした。Supabaseのアカウント作成、プロジェクト作成、SQLエディタでのテーブル作成、APIキーの取得と.env.localへの設定、そしてNetlifyへの環境変数の設定まで全部やった。GeminiのAPIキーも同時に取得して設定した。",
+    explanation: {
+      title: "Supabaseとは？.env.localとは？",
+      content: "Supabaseは、PostgreSQLというデータベースをクラウドで簡単に使えるサービスです。「バックエンドをゼロから作らなくていい」のが最大の強み。ユーザー認証・データ保存・リアルタイム同期まで揃っています。Firebaseに似たサービスですが、オープンソースでSQLが使えます。\n\n.env.localはアプリの「秘密の設定ファイル」です。APIキーやデータベースのURLなど、外に漏れてはいけない情報をここに書きます。GitHubには絶対にアップしてはいけないファイルです。",
+      points: [
+        "Supabase＝クラウド上のPostgreSQLデータベース。管理画面でテーブル作成・データ確認ができる",
+        "SQL Editor＝Supabaseの管理画面でSQLを直接実行できる場所。テーブル作成はここで「CREATE TABLE」文を貼り付けて「Run」するだけ",
+        ".env.local＝APIキーやURLを書く設定ファイル。NEXT_PUBLIC_から始まる変数はフロントエンドで使える",
+        "anon key（公開鍵）＝Supabaseへのアクセスに使うキー。フロントエンドで使って安全な鍵。秘密鍵とは別物",
+        "Netlifyの環境変数設定＝本番サイトでも.env.localと同じキーを「Site settings → Environment variables」に登録しないと動かない"
+      ]
+    },
+    reflection: "「Supabaseのどこを開けばいいか」が最初まったくわからなくてClaudeに画面を見せながら教えてもらった。APIキーを貼ったら「Success. No rows returned」と出たときは本当に嬉しかった。ローカルと本番で環境変数を別々に設定しないといけないのは盲点だった。",
+    difficulty: 4,
+    tools_used: ["Claude", "Supabase", "Next.js", "Netlify", "Gemini API", "Cowork"]
+  },
+  {
+    id: 3,
+    date: "2026-03-24",
+    title: "店舗視察サイトをPWA対応にして、GitHubにpushした",
+    emoji: "📱",
+    category: "PWA / GitHub",
+    tags: ["PWA", "manifest.json", "GitHub", "Python"],
+    summary: "Claudeと店舗視察レポートサイトを作りながら、PWA化とGitHubへのpushを初めて体験した。",
+    what_i_did: "店舗視察レポートをスマホのホーム画面からアクセスできるアプリ風にしたくて、Claudeにお願いした。manifest.jsonを作り、PythonでアイコンPNG（192px・512px）を自動生成。GitHubにpushしてNetlifyでデプロイ。さらに既存のSVGロゴを会社のicon.pngに差し替えるところまでやった。",
+    explanation: {
+      title: "PWA（Progressive Web App）とは何か",
+      content: "PWAとは、Webサイトをスマートフォンのネイティブアプリのように動作させる技術です。インストール不要でホーム画面に追加でき、オフラインでも動き、プッシュ通知も送れます。\n\n「アプリ」と「Webサイト」のいいとこ取りをした仕組みで、App StoreやGoogle Playに申請しなくても配布できるのが最大のメリット。今回の店舗視察サイトも、現場でスマホからすぐ開けるようになりました。",
+      points: [
+        "manifest.json＝アプリの名前・アイコン・テーマカラーなどを定義するファイル。これがないとPWAにならない",
+        "Service Worker＝バックグラウンドで動くスクリプト。オフライン対応やキャッシュ管理を担う",
+        "icon-192.png / icon-512.png＝ホーム画面やスプラッシュ画面に使うアイコン。2サイズ必要",
+        "GitHub push＝ローカルで作ったファイルをGitHubのリポジトリに送り込む操作。これでNetlifyが自動デプロイされる",
+        "PIL（Pillow）＝PythonでPNGを生成できるライブラリ。アイコンをコードで自動作成できた"
+      ]
+    },
+    reflection: "manifest.jsonのどこが足りないかClaude が一発で指摘してくれた。自分では「何がおかしいか」すらわからなかったので助かった。GitHubへのpushは2回目以降は慣れてきた感がある。でもブランチの使い方はまだよくわかっていない。",
+    difficulty: 3,
+    tools_used: ["Claude", "GitHub", "Netlify", "Python（PIL）", "Cowork"]
+  },
+  {
+    id: 1,
+    date: "2026-03-31",
+    title: "FirebaseでアプリのデータをクラウドDBに保存した",
+    emoji: "🔥",
+    category: "Firebase",
+    tags: ["Firebase", "Firestore", "クラウドDB", "販促計画"],
+    summary: "販促計画アプリ（promo-plan-app）のデータ保存先としてFirebase Firestoreを導入。月ごとの計画データをクラウドに保存・読み込みできるようにした。",
+    what_i_did: "販促計画アプリで作ったデータがブラウザを閉じると消えてしまう問題を解決したくて、Firebaseを使ってデータをクラウドに保存する仕組みを作った。firebase.jsでFirebaseの初期化設定を書き、firestoreApi.jsでデータの保存（setDoc）と読み込み（getDoc）の関数を作った。Gitのコミット履歴でも「Firestore連携でデータ共有対応」として3/31に記録されている。",
+    explanation: {
+      title: "Firebaseとは？Firestoreとは？",
+      content: "FirebaseはGoogleが提供するアプリ開発プラットフォームです。データベース・認証・ホスティング・分析など、アプリに必要な機能がひとまとめになっています。\n\nその中のFirestoreは「NoSQL」型のクラウドデータベースです。Excelのような行・列の表形式ではなく、JSONのような「ドキュメント」形式でデータを保存します。コレクション（フォルダ）の中にドキュメント（ファイル）を入れるイメージです。",
+      points: [
+        "Firebase＝Googleのアプリ開発基盤。無料枠が充実していてすぐ使い始められる",
+        "Firestore＝Firebase内のNoSQLクラウドDB。リアルタイム同期にも対応している",
+        "initializeApp()＝FirebaseをAPIキーなどの設定で初期化する関数。最初に1回呼ぶ",
+        "getFirestore()＝Firestoreのインスタンスを取得。これをdb変数に入れて使い回す",
+        "setDoc / getDoc＝ドキュメントへの書き込み・読み込み関数。doc()でパスを指定してデータを操作する"
+      ]
+    },
+    difficulty: 3,
+    tools_used: ["Claude", "Firebase", "Firestore", "React", "Cowork"]
+  },
+  {
+    id: 2,
+    date: "2026-04-04",
+    title: "Vercelで広島子育てナビをデプロイした",
+    emoji: "▲",
+    category: "Vercel",
+    tags: ["Vercel", "Next.js", "デプロイ", "vercel.json", "GitHub"],
+    summary: "Next.jsで作った広島子育てナビ（hiroshima-kosodate-navi）をVercelにデプロイ。vercel.jsonで設定を管理し、GitHubと連携して自動デプロイの仕組みを作った。",
+    what_i_did: "4/3〜4/4の2日間で広島子育てナビをNext.jsで構築し、Vercelにデプロイした。4/3にGitHubへの初回コミット・Vercelとの連携を完了。4/4にvercel.jsonの環境変数（シークレット）参照まわりでハマり、設定を修正してデプロイを安定させた。GitHubにpushするだけで自動的にVercelへデプロイされる仕組みが完成した。",
+    explanation: {
+      title: "Vercelとは？NetlifyとVercelの違い",
+      content: "VercelはNext.jsを作った会社が提供するホスティングサービスです。特にNext.jsとの相性が抜群で、サーバーサイドレンダリング（SSR）やAPIルートもそのまま動きます。\n\nNetlifyと似ていますが、Vercelは「Next.jsファースト」、NetlifyはどんなサイトでもOKという立ち位置です。GitHubと連携すれば、pushするだけで自動ビルド・デプロイが走ります。",
+      points: [
+        "Vercel＝Next.js開発元が作ったホスティング。SSR・APIルート・Edge Functionsに対応",
+        "vercel.json＝Vercelの設定ファイル。ルーティングや環境変数の参照方法を定義する",
+        "環境変数（Secret）＝APIキーなどの秘密情報。Vercelのダッシュボードで設定し、vercel.jsonからは参照しない方が安全",
+        "自動デプロイ＝GitHubのmainブランチにpushするとVercelが自動でビルド・公開してくれる",
+        "Netlifyとの使い分け＝Next.js（SSRあり）→ Vercel、静的サイト・簡単なSPA → Netlify が多い"
+      ]
+    },
+    difficulty: 3,
+    tools_used: ["Claude", "Vercel", "Next.js", "GitHub", "Cowork"]
+  },
+  {
+    id: 4,
+    date: "2026-03-30",
+    title: "Netlifyで自動デプロイの仕組みを作った",
+    emoji: "🚀",
+    category: "Netlify",
+    tags: ["Netlify", "自動デプロイ", "GitHub連携", "環境変数", "ホスティング"],
+    summary: "複数のプロジェクト（店舗視察サイト・Book Memories等）をNetlifyにデプロイし、GitHubと連携した自動デプロイと環境変数の設定を習得した。",
+    what_i_did: "店舗視察レポートPWAやBook MemoriesなどをNetlifyで公開した。GitHubのリポジトリを紐付けて「New site from Git」で連携すると、以降はgit pushするだけで自動デプロイされるようになった。SupabaseのURLやAPIキーなどの環境変数はNetlifyの管理画面「Site settings → Environment variables」に設定する必要があることも学んだ。",
+    explanation: {
+      title: "Netlifyとは？環境変数の設定が必要な理由",
+      content: "Netlifyは静的サイトやSPA（シングルページアプリ）を簡単に公開できるホスティングサービスです。GitHubと連携すれば、コードをpushするだけで自動的にビルド・公開されます。独自ドメインもSSL証明書も無料で使えます。\n\n環境変数（.env.localの内容）はセキュリティ上GitHubにアップできないため、本番環境（Netlify）には別途設定が必要です。これを忘れると「ローカルでは動くのに本番では動かない」という問題が起きます。",
+      points: [
+        "Netlify＝静的サイト・SPA向けのホスティング。無料枠でも独自ドメイン・SSL対応",
+        "GitHub連携＝「New site from Git」でリポジトリを選ぶだけ。以降はpushで自動デプロイ",
+        "Environment variables＝本番サイト用の環境変数設定。Site settings → Environment variablesで追加",
+        ".env.localとの関係＝ローカル用が.env.local、本番用がNetlifyの環境変数。同じキーを両方に設定する",
+        "ビルドログ確認＝デプロイが失敗したときはNetlifyのDeploys画面でログを見るとエラー箇所がわかる"
+      ]
+    },
+    difficulty: 2,
+    tools_used: ["Claude", "Netlify", "GitHub", "Supabase", "Cowork"]
+  },
+  {
+    id: 6,
+    date: "2026-04-03",
+    title: "Pythonで書式付きWordドキュメントを自動生成した",
+    emoji: "📝",
+    category: "Python / Word",
+    tags: ["python-docx", "Python", "ブランディング"],
+    summary: "python-docxライブラリを使い、ヘッダー・カラー・表付きのWordドキュメントをコードだけで生成した。",
+    what_i_did: "桑原さんのブランディング戦略書をWordで作りたくてClaudeに依頼。python-docxというPythonライブラリを使って、見出しのカラー・箇条書き・表・ページ番号まで含んだ.docxファイルをコードで自動生成した。修正依頼（note有料化戦略・顔出し方針・X戦略の見直し）もClaudeに伝えると即座に改訂版を再生成してくれた。",
+    explanation: {
+      title: "python-docxとは？Wordをコードで作る仕組み",
+      content: "python-docxは、PythonでMicrosoft Word（.docx）ファイルを作成・編集できるライブラリです。手で書式を設定する代わりに、コードで「ここを太字に」「ここをネイビー色の見出しに」と指定してファイルを生成します。\n\n毎週同じフォーマットのレポートや、データを差し込んだ書類を大量に作るとき、手作業ゼロで完成させられます。今回のように「修正して再生成」も一瞬でできるのが強みです。",
+      points: [
+        "python-docx＝PythonでWordファイル（.docx）を操作するライブラリ。pip installで使える",
+        "Document()＝新しいWordドキュメントを作るクラス。ここに段落・表・画像を追加していく",
+        "Paragraph（段落）＝テキストのブロック。フォント・サイズ・色・太字などをコードで指定できる",
+        "Table（表）＝行と列を持つ表をコードで生成。セルに色塗りや罫線も設定可能",
+        "doc.save('ファイル名.docx')＝最後にこれを呼ぶとWordファイルとして保存される"
+      ]
+    },
+    reflection: "「Wordって手で作るものじゃないの？」と思っていたが、コードで作れると知って驚いた。修正をお願いするときも「3点修正して」と伝えるだけで即座に改訂版が出てきた。定型フォーマットの書類はこれで全部自動化できそう。",
+    difficulty: 2,
+    tools_used: ["Claude", "Python（python-docx）", "Cowork"]
+  }
+];
+
+/* ================================================================
+   UTILITY
+================================================================ */
+const diffLabels = ['', 'かんたん', 'まあまあ', 'ちょっと難しい', '難しい', 'かなり難しい'];
+const WEEK_START = new Date('2026-03-14'); // 第1週の土曜日
+
+function getWeekNum(dateStr) {
+  const d = new Date(dateStr);
+  return Math.floor((d - WEEK_START) / (7 * 86400000)) + 1;
+}
+
+function weekRange(n) {
+  const sat = new Date(WEEK_START.getTime() + (n-1) * 7 * 86400000);
+  const fri = new Date(sat.getTime() + 6 * 86400000);
+  const fmt = d => `${d.getMonth()+1}/${d.getDate()}`;
+  return `${fmt(sat)}〜${fmt(fri)}`;
+}
+
+function fmtDate(s) {
+  const d = new Date(s);
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+}
+
+function makeRings(n = 8) {
+  return Array(n).fill('<div class="ring"></div>').join('');
+}
+
+function starHTML(n) {
+  return Array(5).fill(0).map((_,i) =>
+    `<span class="star ${i < n ? 'on' : 'off'}">★</span>`
+  ).join('');
+}
+
+// idで確定したデータを用意（週番号を自動計算）
+const data = weeklyData.map(e => ({
+  ...e,
+  week: getWeekNum(e.date)
+})).sort((a,b) => new Date(a.date) - new Date(b.date));
+
+/* ================================================================
+   RENDER
+================================================================ */
+function renderAll() {
+  document.getElementById('rings-toc').innerHTML = makeRings();
+  renderTOC();
+  renderEntries();
+  renderCoverWeeks();
+}
+
+function renderCoverWeeks() {
+  // 週番号ごとに最初のエントリーIDを取得
+  const byWeek = {};
+  data.forEach(e => {
+    if (!byWeek[e.week]) byWeek[e.week] = e.id;
+  });
+  const weeks = Object.keys(byWeek).map(Number).sort((a, b) => a - b);
+
+  document.getElementById('cover-weeks').innerHTML = weeks.map(w => `
+    <button class="cover-week-btn" onclick="event.stopPropagation(); goToWeek(${w})">
+      Week ${w}
+      <span class="week-range">${weekRange(w)}</span>
+    </button>
+  `).join('');
+}
+
+function goToWeek(weekNum) {
+  // その週の最初のエントリーへ
+  const entry = data.find(e => e.week === weekNum);
+  if (!entry) return;
+  document.getElementById('cover-page').style.display = 'none';
+  hideAll();
+  showNavBar();
+  const el = document.getElementById(`entry-${entry.id}`);
+  if (el) el.classList.add('active');
+  current = entry.id;
+  buildPages();
+  updateNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderTOC() {
+  const tocEl   = document.getElementById('toc-list');
+  const emptyEl = document.getElementById('empty-toc');
+  if (!data.length) { emptyEl.style.display = 'block'; return; }
+
+  // 週ごとにグループ化（降順）
+  const byWeek = {};
+  data.forEach(e => {
+    if (!byWeek[e.week]) byWeek[e.week] = [];
+    byWeek[e.week].push(e);
+  });
+  const weeks = Object.keys(byWeek).map(Number).sort((a,b) => b - a);
+
+  tocEl.innerHTML = weeks.map(w => {
+    const entries = byWeek[w];
+    const items = entries.map(e => `
+      <li class="toc-item" onclick="goToEntry(${e.id})">
+        <div class="toc-info">
+          <div class="toc-title">${e.emoji} ${e.title}</div>
+          <div class="toc-meta">
+            <span class="toc-date">📅 ${fmtDate(e.date)}</span>
+            <span class="toc-badge">${e.category}</span>
+          </div>
+        </div>
+      </li>`).join('');
+    return `
+      <li class="toc-week-header">
+        <span class="toc-week-label">Week ${w}</span>
+        <span class="toc-week-range">${weekRange(w)}</span>
+      </li>
+      ${items}`;
+  }).join('');
+}
+
+function renderEntries() {
+  const container = document.getElementById('entry-container');
+  container.innerHTML = data.map(e => `
+    <div id="entry-${e.id}" class="inner-page">
+      <div class="rings">${makeRings()}</div>
+      <div class="entry-content">
+        <div class="week-badge">📔 Week ${e.week} <span style="opacity:.6;font-size:.85em">${weekRange(e.week)}</span></div>
+        <h2 class="entry-title">${e.emoji} ${e.title}</h2>
+        <div class="entry-meta">
+          <span class="entry-date">📅 ${fmtDate(e.date)}</span>
+          ${e.tags.map(t => `<span class="tag" onclick="highlightTag(${e.id},'${t}')">${t}</span>`).join('')}
+        </div>
+
+        <div class="section">
+          <div class="section-head">✏️ 今週やったこと</div>
+          <p>${e.what_i_did}</p>
+        </div>
+
+        <div class="section">
+          <div class="section-head">💡 ポイント解説</div>
+          <div class="expl-box">
+            <h4>${e.explanation.title}</h4>
+            <p>${e.explanation.content.replace(/\n/g,'<br>')}</p>
+          </div>
+          <ul class="key-list">
+            ${e.explanation.points.map(p => `<li><span class="li-text">${p}</span></li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="section">
+          <div class="section-head">⭐ 難易度</div>
+          <div class="diff-row">
+            ${starHTML(e.difficulty)}
+            <span class="diff-label">${diffLabels[e.difficulty] || ''}</span>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">🔧 使ったツール</div>
+          <div class="tool-chips">
+            ${e.tools_used.map(t => `<span class="tag" onclick="highlightTag(${e.id},'${t}')">${t}</span>`).join('')}
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">✍️ 自分メモ</div>
+          <textarea
+            class="memo-box"
+            id="memo-${e.id}"
+            placeholder="気づいたこと、ハマったこと、次にやりたいことなど..."
+            oninput="saveMemo(${e.id}, this.value)"
+          ></textarea>
+          <div class="memo-saved" id="memo-saved-${e.id}"></div>
+        </div>
+
+        <div class="bottom-nav">
+          <button class="bottom-nav-btn" id="bot-prev-${e.id}" onclick="navigate(-1)">◀ 前のページ</button>
+          <button class="bottom-nav-btn" id="bot-next-${e.id}" onclick="navigate(1)">次のページ ▶</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ================================================================
+   TAG HIGHLIGHT — クリックしたタグの単語をエントリー本文内で網掛け
+================================================================ */
+let _highlightTimer = null;
+
+function highlightTag(entryId, tag) {
+  const page = document.getElementById(`entry-${entryId}`);
+  if (!page) return;
+
+  clearHighlights(page);
+
+  // タグチップ自体をハイライト
+  page.querySelectorAll('.tag').forEach(el => {
+    if (el.textContent.trim() === tag) el.classList.add('tag-highlight');
+  });
+
+  // テキストノードだけを対象に網掛け（HTMLタグを壊さない）
+  const escaped = tag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(escaped, 'g');
+  const targets = page.querySelectorAll('.section p, .expl-box p, .expl-box h4, .key-list .li-text');
+  targets.forEach(el => wrapTextNodes(el, re));
+
+  clearTimeout(_highlightTimer);
+  _highlightTimer = setTimeout(() => clearHighlights(page), 4000);
+}
+
+function wrapTextNodes(root, re) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+  const nodes = [];
+  let n;
+  while ((n = walker.nextNode())) {
+    re.lastIndex = 0;
+    if (re.test(n.textContent)) nodes.push(n);
+  }
+  nodes.forEach(textNode => {
+    const text = textNode.textContent;
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    re.lastIndex = 0;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      const mark = document.createElement('mark');
+      mark.className = 'text-mark';
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      last = m.index + m[0].length;
+    }
+    if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    textNode.parentNode.replaceChild(frag, textNode);
+  });
+}
+
+function clearHighlights(page) {
+  page.querySelectorAll('.tag.tag-highlight').forEach(el => el.classList.remove('tag-highlight'));
+  page.querySelectorAll('mark.text-mark').forEach(mark => {
+    const parent = mark.parentNode;
+    if (!parent) return;
+    parent.replaceChild(document.createTextNode(mark.textContent), mark);
+    parent.normalize();
+  });
+}
+
+/* ================================================================
+   MEMO — localStorage に自動保存
+================================================================ */
+function saveMemo(id, text) {
+  localStorage.setItem(`ai-note-memo-${id}`, text);
+  const el = document.getElementById(`memo-saved-${id}`);
+  if (el) {
+    el.textContent = '✓ 保存しました';
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.textContent = ''; }, 2000);
+  }
+}
+
+function loadMemos() {
+  data.forEach(e => {
+    const saved = localStorage.getItem(`ai-note-memo-${e.id}`);
+    const el = document.getElementById(`memo-${e.id}`);
+    if (el && saved) el.value = saved;
+  });
+}
+
+/* ================================================================
+   NAVIGATION STATE
+================================================================ */
+let pages = [];
+let current = null;
+
+function buildPages() {
+  pages = ['contents', ...data.map(e => e.id)];
+}
+
+function hideAll() {
+  document.getElementById('contents-page').classList.remove('active');
+  document.querySelectorAll('#entry-container .inner-page').forEach(el => el.classList.remove('active'));
+}
+
+function updateNav() {
+  const idx = pages.indexOf(current);
+  const atFirst = idx <= 0;
+  const atLast  = idx >= pages.length - 1;
+  const indText = `${idx + 1} / ${pages.length}`;
+
+  // タイトル下ナビ
+  document.getElementById('prev-btn').disabled = atFirst;
+  document.getElementById('next-btn').disabled = atLast;
+  document.getElementById('page-indicator').textContent = indText;
+
+  // ページ末尾ナビ
+  if (typeof current === 'number') {
+    const bp = document.getElementById(`bot-prev-${current}`);
+    const bn = document.getElementById(`bot-next-${current}`);
+    if (bp) bp.disabled = atFirst;
+    if (bn) bn.disabled = atLast;
+  }
+}
+
+function showNavBar() {
+  document.getElementById('nav-bar').classList.add('visible');
+}
+
+function goToCover() {
+  hideAll();
+  document.getElementById('cover-page').style.display = '';
+  document.getElementById('nav-bar').classList.remove('visible');
+  current = null;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openBook() {
+  document.getElementById('cover-page').style.display = 'none';
+  hideAll();
+  document.getElementById('contents-page').classList.add('active');
+  current = 'contents';
+  showNavBar();
+  updateNav();
+}
+
+function goToEntry(id) {
+  hideAll();
+  const el = document.getElementById(`entry-${id}`);
+  if (el) el.classList.add('active');
+  current = id;
+  showNavBar();
+  updateNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function navigate(dir) {
+  const idx = pages.indexOf(current);
+  const next = idx + dir;
+  if (next < 0 || next >= pages.length) return;
+  const target = pages[next];
+  if (target === 'contents') openBook();
+  else goToEntry(target);
+}
+
+/* ================================================================
+   PWA — Service Worker & Install Prompt
+================================================================ */
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const banner = document.getElementById('install-banner');
+  banner.style.display = 'flex';
+});
+
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  dismissInstall();
+});
+
+function dismissInstall() {
+  document.getElementById('install-banner').style.display = 'none';
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .catch(err => console.warn('SW registration failed:', err));
+  });
+}
+
+/* ================================================================
+   INIT
+================================================================ */
+renderAll();
+buildPages();
+loadMemos();
+</script>
+</body>
+</html>
