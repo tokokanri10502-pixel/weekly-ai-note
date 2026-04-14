@@ -789,6 +789,112 @@
       .entry-title { font-size: 1.2rem; }
       .cover-title { font-size: 1.65rem; }
     }
+
+    /* ===== APPENDIX ===== */
+    .appendix-intro {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      padding: 10px 14px;
+      background: rgba(184,134,11,0.07);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 6px 6px 0;
+    }
+    .appendix-category {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin: 22px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(184,134,11,0.25);
+    }
+    .appendix-card {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    .appendix-card-head {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+    .appendix-card-name {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .appendix-card-type {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.7rem;
+      color: var(--tag-text);
+      background: var(--tag-bg);
+      padding: 1px 7px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    .appendix-card-desc {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.65;
+      margin-bottom: 6px;
+    }
+    .appendix-card-price {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .price-badge {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.72rem;
+      padding: 2px 9px;
+      border-radius: 10px;
+    }
+    .price-free {
+      background: rgba(46,139,87,0.12);
+      color: #2e7d32;
+      border: 1px solid rgba(46,139,87,0.25);
+    }
+    .price-paid {
+      background: rgba(74,128,176,0.1);
+      color: var(--accent-blue);
+      border: 1px solid rgba(74,128,176,0.2);
+    }
+    .appendix-card-output {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    .toc-appendix-link {
+      display: flex; align-items: center;
+      padding: 10px 12px;
+      margin: 12px 0 4px;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--cover-dark);
+      background: linear-gradient(to right, rgba(74,128,176,0.15), rgba(74,128,176,0.04));
+      border-left: 3px solid var(--accent-blue);
+      border-radius: 0 6px 6px 0;
+      gap: 8px;
+      letter-spacing: 0.03em;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .toc-appendix-link:hover {
+      background: linear-gradient(to right, rgba(74,128,176,0.28), rgba(74,128,176,0.08));
+    }
   </style>
 </head>
 <body>
@@ -836,6 +942,207 @@
 
     <!-- ▼ ENTRY PAGES (JS generated) ▼ -->
     <div id="entry-container"></div>
+
+    <!-- ▼ APPENDIX PAGE ▼ -->
+    <div id="appendix-page" class="inner-page">
+      <div class="rings" id="rings-appendix"></div>
+      <h2 class="page-heading">📎 付録　AIスタック解説ガイド</h2>
+      <p class="appendix-intro">東光印刷 萬財塾資料「AIスタック学習マップ 別紙」より。各ツールの用途・導入方法・料金・アウトプット例をまとめています。</p>
+
+      <div class="appendix-category">🌐 Webアプリ開発系</div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">01. GitHub</span>
+          <span class="appendix-card-type">コード管理</span>
+        </div>
+        <div class="appendix-card-desc">コードを保存・共有・チームで管理するプラットフォーム。「コードのDropbox」。NetlifyやVercelへの自動デプロイの起点となる。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">無料（privateリポジトリも無制限）</span>
+          <span class="price-badge price-paid">GitHub Copilot 月$10〜</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：社内ツールのバージョン管理 / Netlify・Vercelへの自動デプロイ基盤</div>
+      </div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">02. Netlify</span>
+          <span class="appendix-card-type">ホスティング</span>
+        </div>
+        <div class="appendix-card-desc">GitHubと連携してWebサイトを自動公開するホスティングサービス。pushするだけで自動更新。静的サイト・Reactアプリの公開に最適。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">無料（月100GBまで）</span>
+          <span class="price-badge price-paid">Pro 月$19〜</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：TOKOシリーズサイトの公開・更新 / 社内向けWebツールの無料ホスティング</div>
+      </div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">03. Vercel</span>
+          <span class="appendix-card-type">ホスティング</span>
+        </div>
+        <div class="appendix-card-desc">Next.jsと相性抜群の高性能ホスティングサービス。SSR・APIルートもそのまま動く。Next.jsアプリにはNetlifyよりVercelが向いている。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">無料（個人・非商用）</span>
+          <span class="price-badge price-paid">Pro 月$20（商用利用）</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：広島子育てナビなどNext.jsアプリの公開 / SSRによるSEO対応サイト</div>
+      </div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">04. Supabase</span>
+          <span class="appendix-card-type">データベース</span>
+        </div>
+        <div class="appendix-card-desc">クラウド上のPostgreSQLをGUIで簡単に操作できるサービス。認証機能も内蔵。Book MemoriesもSupabaseで動いている。RLS設定を忘れずに。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">無料（500MB・5万行まで）</span>
+          <span class="price-badge price-paid">Pro 月$25（8GB）</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：Book Memoriesの読書データ管理 / 社員が入力→リアルタイム共有できるアプリ</div>
+      </div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">05. Firebase</span>
+          <span class="appendix-card-type">データベース／認証</span>
+        </div>
+        <div class="appendix-card-desc">GoogleのアプリバックエンドサービスでFirestore（NoSQL DB）・認証・ホスティングがセット。Googleアカウント認証との連携が強力。販促計画アプリで使用中。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">無料（Spark：1GB・5万read/日）</span>
+          <span class="price-badge price-paid">Blaze（従量課金）</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：販促計画アプリのデータ共有 / Googleアカウントでのログイン機能</div>
+      </div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">06. Next.js / React</span>
+          <span class="appendix-card-type">フレームワーク</span>
+        </div>
+        <div class="appendix-card-desc">現代のWebアプリ開発の標準フレームワーク。Claudeに「Next.jsで〇〇アプリを作って」と指示すれば自動生成。TOKOシリーズはすべてこれで構築。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">完全無料（オープンソース）</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：TOKOシリーズ全サイト / TOKO School Navigator / 広島子育てナビ</div>
+      </div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">07. PWA</span>
+          <span class="appendix-card-type">スマホアプリ化</span>
+        </div>
+        <div class="appendix-card-desc">Progressive Web App。App Store申請不要でWebサイトをホーム画面に追加できる仕組み。manifest.json＋Service Worker＋アイコン2サイズで実現。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">完全無料（技術仕様）</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：店舗視察レポートのスマホアプリ化 / 週刊AIノートのホーム画面追加</div>
+      </div>
+
+      <div class="appendix-category">🧠 プロンプト設計系</div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">08. RAG</span>
+          <span class="appendix-card-type">AI連携</span>
+        </div>
+        <div class="appendix-card-desc">Retrieval-Augmented Generation。社内文書をデータベース化し、AIが質問に答える際に関連文書を自動参照する仕組み。「社内専用AI」の核となる技術。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">構築コストのみ（API従量課金）</span>
+          <span class="price-badge price-paid">Claude API：100万トークン$3〜</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：20年分の販促ノウハウを検索できる社内AI / 過去提案書から類似事例を自動提案</div>
+      </div>
+
+      <div class="appendix-category">⚙️ 自動化・連携系</div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">09. Make（旧Integromat）</span>
+          <span class="appendix-card-type">ノーコード自動化</span>
+        </div>
+        <div class="appendix-card-desc">ノーコードで複数ツールを自動連携するワークフロー自動化ツール。「Gmailに届いたら→Slack通知→スプレッドシートに記録」のような処理をGUIで設計できる。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">無料（月1,000オペレーション）</span>
+          <span class="price-badge price-paid">Core 月$9〜（月1万オペレーション）</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：問い合わせフォーム→Slack通知 / SNS投稿の定期自動化 / 受注メール→スプレッドシート自動記録</div>
+      </div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">10. GAS（Google Apps Script）</span>
+          <span class="appendix-card-type">自動化スクリプト</span>
+        </div>
+        <div class="appendix-card-desc">Gmail・スプレッドシート・Google Driveなどを自動操作できるGoogleの無料スクリプト環境。JavaScriptベースだがClaudeに頼めば自動生成。時間トリガーで定期実行も可能。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">完全無料</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：日報の自動集計・メール送信 / スプレッドシートのデータ自動整理 / Googleフォーム回答の自動振り分け</div>
+      </div>
+
+      <div class="appendix-category">📊 データ分析系</div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">11. Python（pandas）</span>
+          <span class="appendix-card-type">データ分析</span>
+        </div>
+        <div class="appendix-card-desc">Pythonはシンプルで読みやすいプログラミング言語。pandasはExcelのような表データを高速処理できるライブラリ。Claudeに「このCSVを分析して」と頼めばコードを生成してくれる。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">完全無料（オープンソース）</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：残業・勤怠データの分析レポート / 売上データの集計・グラフ化 / 印刷コスト最適化の数値分析</div>
+      </div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">12. Looker Studio</span>
+          <span class="appendix-card-type">BI・可視化</span>
+        </div>
+        <div class="appendix-card-desc">旧Google Data Studio。スプレッドシート・BigQuery・CSVなどのデータをグラフ・表・ダッシュボードとして可視化できるGoogleの無料ツール。更新すると自動反映。共有URLで社内共有も簡単。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">完全無料</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：経営会議用の売上ダッシュボード / 顧客別受注トレンドの可視化 / 月次KPIレポートの自動更新</div>
+      </div>
+
+      <div class="appendix-category">🎙️ 音声・マルチモーダル系</div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">13. ElevenLabs / Whisper</span>
+          <span class="appendix-card-type">音声AI</span>
+        </div>
+        <div class="appendix-card-desc">ElevenLabsはテキストを自然な音声に変換するAIサービス。WhisperはOpenAIの音声・動画文字起こしAI（無料）。会議録音の議事録作成やナレーション自動生成に使う。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">Whisper：無料 / ElevenLabs：無料（1万文字/月）</span>
+          <span class="price-badge price-paid">ElevenLabs Starter 月$5（3万文字）</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：萬財塾・商談の自動議事録 / 動画のAIナレーション音声生成 / 多言語対応の音声ガイド作成</div>
+      </div>
+
+      <div class="appendix-category">🎬 映像・3D系</div>
+
+      <div class="appendix-card">
+        <div class="appendix-card-head">
+          <span class="appendix-card-name">14. CapCut / Runway</span>
+          <span class="appendix-card-type">動画編集・AI生成</span>
+        </div>
+        <div class="appendix-card-desc">CapCutはTikTok（ByteDance）の無料動画編集アプリ。AI自動字幕・BGM・エフェクト機能が充実。RunwayはテキストやAI画像から動画を生成できるAIツール。</div>
+        <div class="appendix-card-price">
+          <span class="price-badge price-free">CapCut：無料 / Runway：無料（125クレジット/月）</span>
+          <span class="price-badge price-paid">Runway Standard 月$12（625クレジット）</span>
+        </div>
+        <div class="appendix-card-output">東光印刷での活用例：商品・店舗紹介のリール動画 / 店頭サイネージ用映像素材 / 印刷物QRコードから動画コンテンツへ</div>
+      </div>
+
+      <div class="bottom-nav">
+        <button class="bottom-nav-btn" onclick="navigate(-1)">◀ 前のページ</button>
+        <button class="bottom-nav-btn" onclick="openBook()">もくじに戻る</button>
+      </div>
+    </div>
 
   </div>
 
@@ -1182,6 +1489,7 @@ const data = weeklyData.map(e => ({
 ================================================================ */
 function renderAll() {
   document.getElementById('rings-toc').innerHTML = makeRings();
+  document.getElementById('rings-appendix').innerHTML = makeRings();
   renderTOC();
   renderEntries();
   renderReviews();
@@ -1285,6 +1593,7 @@ function renderTOC() {
   });
   const weeks = Object.keys(byWeek).map(Number).sort((a,b) => b - a);
 
+  const appendixLink = `<li class="toc-appendix-link" onclick="goToAppendix()">📎 付録　AIスタック解説ガイド（全14ツール）</li>`;
   tocEl.innerHTML = weeks.map(w => {
     const entries = byWeek[w];
     const items = entries.map(e => `
@@ -1309,7 +1618,7 @@ function renderTOC() {
       </li>
       ${items}
       ${reviewLink}`;
-  }).join('');
+  }).join('') + appendixLink;
 }
 
 function renderEntries() {
@@ -1476,11 +1785,13 @@ function buildPages() {
       result.push(`review-${e.week}`);
     }
   });
+  result.push('appendix');
   pages = result;
 }
 
 function hideAll() {
   document.getElementById('contents-page').classList.remove('active');
+  document.getElementById('appendix-page').classList.remove('active');
   document.querySelectorAll('#entry-container .inner-page').forEach(el => el.classList.remove('active'));
 }
 
@@ -1541,8 +1852,18 @@ function navigate(dir) {
   if (next < 0 || next >= pages.length) return;
   const target = pages[next];
   if (target === 'contents') openBook();
+  else if (target === 'appendix') goToAppendix();
   else if (typeof target === 'string' && target.startsWith('review-')) goToReview(parseInt(target.split('-')[1]));
   else goToEntry(target);
+}
+
+function goToAppendix() {
+  hideAll();
+  document.getElementById('appendix-page').classList.add('active');
+  current = 'appendix';
+  showNavBar();
+  updateNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function goToReview(weekNum) {
