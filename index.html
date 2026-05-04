@@ -1519,27 +1519,99 @@ const weeklyData = [
     tools_used: ["Claude", "HTML", "Cowork"]
   },
   {
-    id: 16,
-    date: "2026-04-25",
-    title: "スケジュールタスクの「隔週判定ロジック」を偶数週版に作り変えた",
-    emoji: "📆",
-    category: "スケジュールタスク / 自動化",
-    tags: ["スケジュールタスク", "隔週判定", "ISO週番号", "自動化", "懇談ブリーフィング"],
-    summary: "毎週木曜に動く懇談ブリーフィング自動作成タスクの判定基準を「奇数週で実行」から「偶数週で実行」に切り替え。次回4/30から新しい運用に乗り換えた。",
-    what_i_did: "隔週で実施している懇談のスケジュールが今週ずれた関係で、自動でブリーフィング資料を作成しているスケジュールタスクの判定ロジックを更新した。基準週を第13週（3/26）から第18週（4/30）に動かし、「奇数ISO週で実行」だったのを「偶数ISO週で実行」に切り替え。起動トリガー（毎週木曜12:05）はそのままで、中の判定だけを差し替える形にした。次回は4/30、その後5/14、5/28と続く偶数週で自動でブリーフィングが作られる流れになる。",
+    id: 17,
+    date: "2026-04-27",
+    title: "DEEP Labに「PB（プライベートブランド）」特集を追加した",
+    emoji: "🛒",
+    category: "コンテンツ追加 / DEEP Lab",
+    tags: ["PB", "プライベートブランド", "DEEP Lab", "articles.js", "特集FMT", "新着タイムリー"],
+    summary: "DEEP Labに新しい記事「PB特集」を1本追加。articles.jsへの追記だけでトップカードに自動で並ぶ運用を初めて実体験した。あわせて新着の見え方も微調整した。",
+    what_i_did: "先週リファクタリングしたarticles.js方式を、新記事追加で初めて使ってみた。pb-tokushu.html（720行）を特集FMTに準拠して書き上げ、articles.js に1件追記しただけでトップページのカードに自動で並んだ。HTMLを直接いじる必要がなく、追加にかかる手間が劇的に減った実感があった。あわせて画像差替え（AI売場・イーロンの画像）と「新着」バッジが新鮮に見える微修正も同日に重ねた。",
     explanation: {
-      title: "ISO週番号と「隔週で動かす」仕組み",
-      content: "ISO週番号とは、1月1日を含む週を「第1週」として年内に通し番号を振る世界共通の週カレンダーです。これを使うと「今週は第何週か」が常に1つの整数で表せます。\n\n隔週で何かを動かしたい時は、この週番号の偶数/奇数を判定するのがラクです。今週が偶数週なら実行、奇数週ならスキップ——というif文1本で「隔週」が表現できます。基準日とのズレを直すには、「どちらを実行週にするか」のルールを切り替えるだけで済みます。",
+      title: "「データ別ファイル化」が効くタイミング",
+      content: "先週articles.jsにデータを分離したばかりですが、その効果は「次に1本追加するとき」に初めて実感できます。今回はまさにその瞬間で、HTMLを開かずにJSファイルへ1ブロック追記するだけで本番に反映されました。\n\nリファクタリングは作っているときには嬉しさが見えにくく、次の追加・次の修正のときに初めて『あの時整えておいてよかった』と効いてくる作業です。",
       points: [
-        "ISO週番号＝年内の週に通し番号をつけた世界共通カレンダー。月曜始まりで管理される",
-        "隔週判定＝週番号の偶数/奇数で実行可否を分ける定番パターン",
-        "起動トリガー＝スケジュールタスクが「いつ動くか」の指定。今回は毎週木曜12:05のまま据え置き",
-        "判定ロジックの差し替え＝「動くかどうか」の中身だけを書き換える方式。トリガーをいじらないのでスケジュール表が乱れない",
-        "懇談ブリーフィング＝懇談用の資料を自動で作る運用。Claudeが最新ニュースを取り直して資料化してくれる"
+        "articles.jsへの追記＝トップページのカード並び替え・新着判定もJS側で自動処理されるので、HTMLを触らずに済む",
+        "特集FMT準拠＝site-header・hero・summary-bar・chapter構造に沿って書く。記事ごとの品質ブレが減る",
+        "新着の見せ方＝記事の日付を比較して直近のものに「新着」表示を出す処理。articles.jsにdateを正しく入れるだけで効く",
+        "PB（プライベートブランド）＝小売がメーカーと協働で開発する独自商品ブランド。今回の特集テーマ",
+        "画像差替えはコミット単位で残す＝あとから「いつ何を差替えたか」を追えるよう、画像更新は単独コミットにすると見やすい"
       ]
     },
+    difficulty: 2,
+    tools_used: ["Claude", "JavaScript", "GitHub Pages", "Cowork"]
+  },
+  {
+    id: 18,
+    date: "2026-04-29",
+    title: "AI Code Readerという「自分のコードを10日間で読み解く学習PWA」を新規構築した",
+    emoji: "📖",
+    category: "学習PWA / 教育コンテンツ",
+    tags: ["AI Code Reader", "PWA", "学習アプリ", "クイズ", "Service Worker", "HTML/CSS/JS基礎"],
+    summary: "Claudeに作ってもらったコードを「自分の目で読めるようになる」ための10日間学習アプリを新規構築。HTML headの読み方からJavaScript関数・DOM操作まで、各日4問のクイズ形式で読解力を身につける構成。",
+    what_i_did: "Claudeに頼って作ったコードを、自分でも読み解けるようになりたいと思って学習PWAを一から作った。Day 1（HTMLのheadを読む）からDay 10（総まとめ）までの10日構成で、各日にコードスニペットと4問の選択クイズが並ぶ。ファイルはindex.html・manifest.json・service-worker.js・README.mdの4本立て。アイコンは512/192/180/32/16の5サイズをicons/フォルダに用意して、iPhoneとAndroidどちらのホーム画面にも対応させた。READMEには「GitHub Pagesにデプロイする手順」を初心者向けに5ステップで記述し、Day構成を後から増やしても追加プロンプトをClaudeに渡せるよう「クイズ追加プロンプト」もアプリ内から自動コピーできるようにした。",
+    explanation: {
+      title: "「AIに任せるだけで終わらせない」学習設計",
+      content: "AIにコードを作ってもらえるようになると、どうしても「読まなくていい」状態が続きます。でも、自分のサイトやアプリで何かが起きたとき、コードを読めないと原因が掴めず、修正もすべてAIに丸投げになります。\n\nAI Code Readerは『自分が作ったコードを題材にして読解する』ことで、抽象的な参考書よりも一気に身につく構成にしました。Day 1〜10の各日で、HTML head、body、CSS変数、セレクタ、flex、装飾、疑似要素、JavaScript関数、DOM操作、総まとめ、と段階的に進む設計です。",
+      points: [
+        "AI Code Reader＝AIと作ったコードを自分の目で読み解くための10日間学習PWA。クイズ形式で進む",
+        "Day構成＝HTML head→body→CSS変数→セレクタ→flex→装飾→疑似要素→JS関数→DOM→総まとめ の10ステップ",
+        "クイズ形式＝各Day 4問の選択式。回答ロックと正解色付けでスコアと習熟度が可視化される",
+        "追加問題プロンプト＝アプリ内のボタンを押すと『Day Nの追加問題をClaudeに作ってもらうためのプロンプト』をコピーできる仕掛け",
+        "Service Worker / manifest.json＝オフライン対応・ホーム画面追加に必要な定番セット。すでに何度も作ってきた構成を流用"
+      ]
+    },
+    reflection: "「AIにコードを書かせる」ことに慣れてくるほど、自分でコードを読まなくなる危機感があった。それを学習コンテンツとして仕組み化したのが今回。教えながら自分も読み返せる二重の効果がある。",
     difficulty: 3,
-    tools_used: ["Claude", "Cowork", "スケジュールタスク"]
+    tools_used: ["Claude", "PWA", "Service Worker", "GitHub Pages", "Cowork"]
+  },
+  {
+    id: 19,
+    date: "2026-04-30",
+    title: "DEEP Labの社内紹介PDFをPython（reportlab+qrcode）で自動生成した",
+    emoji: "📄",
+    category: "Python / PDF自動生成",
+    tags: ["reportlab", "qrcode", "PDF生成", "DEEP Lab", "Yu Gothic", "make_intro_pdf.py"],
+    summary: "DEEP Labを社内に紹介するための資料PDFを、Pythonコード（make_intro_pdf.py）で自動生成。reportlabでA4レイアウトを組み、qrcodeでサイトURLのQRを埋め込み、Yu GothicフォントでDEEP Labの世界観に合わせた紙面に仕上げた。",
+    what_i_did: "DEEP Labのコンセプト・代表記事・サイトURLを社内に伝えたくて、Claudeに依頼して紹介PDFをPythonで自動生成する仕組みを作った。reportlabでA4のレイアウトを組み、サイトのカラーパレット（NAVYやREDなど）をそのまま反映。フォントはWindowsに最初から入っているYu Gothicの太字（YuGothB.ttc）と中字（YuGothM.ttc）を直接登録して使った。サイトのURLはqrcodeライブラリでQRコード化して紙面右下に配置。完成したdeep-lab-site_intro.pdfはリポジトリにそのままコミットして、欲しい人がいつでもダウンロードできる形にした。あわせてAI売場記事は今回いったんカット（articles.jsから削除）し、紙面の「代表記事」枠の選定も整理した。",
+    explanation: {
+      title: "reportlabとqrcodeで「Pythonからきれいな日本語PDFを作る」流れ",
+      content: "reportlabはPythonでPDFを1ページずつ細かく組めるライブラリです。テキスト・矩形・画像・線・色をすべてmm単位で配置でき、Wordのように『流し込む』のではなく、紙面を1px単位で設計するイメージです。\n\nqrcodeはURLや文字列からQRコード画像を生成するライブラリ。これをreportlabのImageReader経由でPDFに貼り付けると、紙面から直接スマホでサイトに飛んでもらえる導線が作れます。日本語フォントは pdfmetrics.registerFont で .ttc を登録すれば文字化けせずにそのまま使えます。",
+      points: [
+        "reportlab＝PythonでPDFを1ページずつ組み立てるライブラリ。canvas（紙面）に対してテキスト・矩形・画像を直接置いていく",
+        "qrcode＝文字列をQRコード画像化するライブラリ。サイトURLを紙面に載せる導線づくりに便利",
+        "Yu Gothic .ttc 登録＝Windowsに既に入っているフォントをそのまま使える。pdfmetrics.registerFont(TTFont('YuGothB', '.../YuGothB.ttc', subfontIndex=0))",
+        "ImageReader＝reportlabに画像を流し込むときに使うラッパー。BytesIOから直接読めるのでQR画像をその場で貼れる",
+        "サイトと紙面のカラー統一＝NAVYやREDなど、Webサイト側で使っている色をPDFでも同じRGB値で指定。ブランドの一貫性が出る"
+      ]
+    },
+    reflection: "PDFはWordから書き出すものだと思っていたが、Pythonで1から組むと「文字位置・色・QR配置」を完全に自分の好みで決められる。社内資料でDEEP Labを見せる場面が増えそうなので、テンプレ化しておけば次のサイトにも使い回せる。",
+    difficulty: 3,
+    tools_used: ["Claude", "Python（reportlab）", "Python（qrcode）", "Cowork"]
+  },
+  {
+    id: 20,
+    date: "2026-05-01",
+    title: "DEEP Lab全9ページにGA4トラッキングタグを一括導入し、韓国コスメ消費の特集も公開した",
+    emoji: "📊",
+    category: "アクセス解析 / GA4",
+    tags: ["GA4", "Google Analytics", "gtag.js", "アクセス解析", "DEEP Lab", "韓国コスメ", "イオン広島府中"],
+    summary: "Claudeに依頼してDEEP Labのトップ＋特集8本、計9ページ分にGA4タグ（G-W4EKTRW9RX）を一気に挿入。誰がどの記事を読んでいるかが見えるサイトに進化した。あわせて新特集「イオン広島府中の改装から見るコスメ消費の現状」も同日公開した。",
+    what_i_did: "DEEP Labを公開してきたが「実際に読まれているのか」がまったく見えなかったので、Google Analytics 4を導入することにした。Claudeに『全ページに同じGA4タグを入れて』と依頼すると、index.html・anime-ai-gundam・anthropic・hasegawa・mochimochi・oshi-katsu・pb・xai-grok・kaimono-fukei の9ファイルに同じgtag.jsスニペットを一括で挿入してくれた。トラッキングIDはG-W4EKTRW9RX。あわせて新特集「韓国コスメ消費の現状（イオン広島府中の改装を切り口に）」を704行のHTMLで公開し、articles.jsにも追記。最後に各カードの『画像はイメージです』の表記をtagLabelとして全件で統一する整理も済ませた。",
+    explanation: {
+      title: "GA4とは？「読まれているかが見える」最初の一歩",
+      content: "GA4（Google Analytics 4）はGoogleが提供するアクセス解析サービスです。サイトの各ページに小さなJavaScriptタグ（gtag.js）を埋め込むだけで、誰がどのページに、いつ、どこから来て、どれくらい滞在したかが管理画面に集計されます。\n\n以前のUA（Universal Analytics）はすでに終了しており、いまGoogle Analyticsを始めるならGA4が標準です。トラッキングIDは「G-」から始まる文字列で、これをサイト全ページに同じ形で入れることで全体の動線が見えるようになります。",
+      points: [
+        "GA4＝Google Analyticsの現行バージョン。イベントベースで計測し、UA時代より柔軟に分析できる",
+        "gtag.js＝GA4を有効化するためのJavaScriptタグ。<head>内に1ブロック貼るだけで計測が始まる",
+        "G-から始まるID＝サイトごとに発行されるトラッキングID。今回は G-W4EKTRW9RX",
+        "全ページ一括挿入＝Claudeに『全HTMLに同じスニペットを入れて』と頼むと9ファイルに自動展開してくれる。1枚ずつコピペする必要なし",
+        "tagLabel統一（運用整理）＝『※画像はイメージです』のような表記を1箇所のラベル変数に集約する。文言を直すときは1箇所でOK"
+      ]
+    },
+    reflection: "「公開はしたが誰が見てるのかわからない」ところに、ようやく目が付いた感じ。GA4を入れたら次は『どの記事が読まれているか・どこで離脱したか』を見ながら、次に書く特集の方向を決められるようになる。社内向けに『DEEP Lab、こう読まれてます』というレポートを毎月出してもいいかもしれない。",
+    difficulty: 2,
+    tools_used: ["Claude", "Google Analytics 4", "gtag.js", "GitHub Pages", "Cowork"]
   }
 ];
 
@@ -1548,11 +1620,40 @@ const weeklyData = [
 ================================================================ */
 const weeklyReviews = [
   {
+    week: 7,
+    learningLevel: 5,
+    levelLabel: "資産化と計測の週",
+    levelComment: "AIを始めて約7週目。今週は『作って終わり』をさらに一歩進めて、『作ったものを資産化し、効果を計測できる状態に』した週でした。先週articles.jsで整えた仕組みを使ってDEEP LabにPB特集を追加し、リファクタリングの恩恵を初めて実感。さらにreportlab+qrcodeでDEEP Labの社内紹介PDFをコードで自動生成し、全9ページにGA4を一括導入して『誰が何を読んでいるか』が見える土台を整えました。並行してAI Code Readerという『自分のコードを10日間で読み解く学習PWA』を新規構築。AI任せにせず自分で読む力を仕組み化したのは大きな前進です。",
+    techAcquired: ["GA4 / gtag.js", "reportlab（Python PDF生成）", "qrcode（Python QR生成）", "学習PWA設計", "Yu Gothicフォント登録", "articles.js運用実践"],
+    recommendations: [
+      {
+        icon: "📈",
+        title: "GA4の管理画面を週1で開く習慣をつける",
+        reason: "タグを入れただけでは活きません。月曜の朝など決まったタイミングでGA4の『レポート→ライフサイクル』を5分眺めるだけで、どの記事が読まれて・どこで離脱しているかが見えてきます。次に書く特集の方向決めに直結します。"
+      },
+      {
+        icon: "📚",
+        title: "AI Code ReaderをDay 11以降に拡張する",
+        reason: "10日構成の基盤ができました。アプリ内の『追加問題プロンプト』をそのままClaudeに渡せば、TypeScriptやReact、Service Workerなど次のテーマもDay 11・12・13と足していけます。社員に配布する前に、自分でDay 1から通して解いてみると気づきが多いはずです。"
+      },
+      {
+        icon: "📐",
+        title: "intro PDFをテンプレ化して他サイトにも展開する",
+        reason: "make_intro_pdf.pyをDEEP Lab専用にしておくのはもったいないので、TOKO WORKS / Food Trend / Life Trend 各サイトにも同じスタイルのA4紹介PDFを作っておきましょう。サイト名・カラー・代表記事を引数で渡すだけで生成できる形にしておくと、紹介資料が必要になった時にすぐ出せます。"
+      }
+    ],
+    tips: [
+      { icon: "💡", text: "リファクタリングの効果は『次の追加』で初めて実感できます。整えた直後は地味に見えますが、PB記事を追加した瞬間に『JS1行追加で済んだ』というラクさで効果が見えます。" },
+      { icon: "💡", text: "GA4のような『全ページに同じスニペットを入れる』作業はClaudeの一番の得意分野。『全HTMLに入れて』と頼むだけで9ファイルでも一発で展開してくれます。手作業しないこと。" },
+      { icon: "💡", text: "Pythonで紙物（PDF）が組めるようになると、社内で配る資料の発想が広がります。『毎週同じ書式の紹介資料』はreportlabでテンプレ化しておくと、内容差し替えだけで毎回キレイな1枚が出せます。" }
+    ]
+  },
+  {
     week: 6,
     learningLevel: 5,
     levelLabel: "守りも作る期",
-    levelComment: "AIを始めて6週目。今週は「攻め（作って公開）」だけでなく「守り（セキュリティ）」にも踏み込んだ週でした。GitHubトークンの直書き問題に自分で気づいて入力フォーム方式に切り替え、.env.localの追跡漏れも修正。さらに同じ失敗を社員にさせないために security-guide サイトを作って配布できる形にしました。記事サイトのほうもデータ分離（articles.js）で「次の追加が楽になる構造」へ進化。スケジュールタスクの判定ロジックまで自分で組み替えています。「作って終わり」ではなく「運用を整える」発想が芽生えた週です。",
-    techAcquired: ["データ分離（articles.js）", "リファクタリング", "GitHubトークン管理", ".env.localの.gitignore運用", "git rm --cached", "ISO週番号による隔週判定"],
+    levelComment: "AIを始めて6週目。今週は「攻め（作って公開）」だけでなく「守り（セキュリティ）」にも踏み込んだ週でした。GitHubトークンの直書き問題に自分で気づいて入力フォーム方式に切り替え、.env.localの追跡漏れも修正。さらに同じ失敗を社員にさせないために security-guide サイトを作って配布できる形にしました。記事サイトのほうもデータ分離（articles.js）で「次の追加が楽になる構造」へ進化。「作って終わり」ではなく「運用を整える」発想が芽生えた週です。",
+    techAcquired: ["データ分離（articles.js）", "リファクタリング", "GitHubトークン管理", ".env.localの.gitignore運用", "git rm --cached"],
     recommendations: [
       {
         icon: "🔍",
@@ -1572,8 +1673,7 @@ const weeklyReviews = [
     ],
     tips: [
       { icon: "💡", text: "セキュリティの違和感は『あれ、これ公開リポジトリで大丈夫？』と一言Claudeに聞くだけでOK。鍵が漏れる前に止められます。" },
-      { icon: "💡", text: "トークンや.env.localは『書く前に隠し方を決める』のがコツ。書いた後で消すより、最初から.gitignoreに入れておくほうがずっと楽です。" },
-      { icon: "💡", text: "スケジュールタスクの『中の判定ロジック』だけ書き換えれば、トリガー（起動時刻）を触らずに運用ルールを変えられます。スケジュール表が乱れないのでおすすめ。" }
+      { icon: "💡", text: "トークンや.env.localは『書く前に隠し方を決める』のがコツ。書いた後で消すより、最初から.gitignoreに入れておくほうがずっと楽です。" }
     ]
   },
   {
