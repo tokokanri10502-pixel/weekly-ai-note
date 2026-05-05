@@ -333,6 +333,67 @@
       margin-bottom: 18px;
     }
 
+    .series-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #2a3a55 0%, #1a2540 100%);
+      color: #d8e6ff;
+      font-family: 'Klee One', cursive;
+      font-size: 0.72rem;
+      padding: 5px 14px;
+      border-radius: 6px;
+      letter-spacing: 0.08em;
+      margin: 0 0 14px 0;
+      border: 1px solid rgba(180, 200, 240, 0.3);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .series-badge:hover { opacity: 0.85; }
+    .series-badge .series-no {
+      background: rgba(255, 255, 255, 0.18);
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+    .series-badge .series-sub {
+      color: #a8b8d8;
+      font-size: 0.72rem;
+    }
+
+    .toc-series-header {
+      list-style: none;
+      padding: 14px 12px 6px;
+      margin-top: 18px;
+      border-top: 1px dashed rgba(74, 128, 176, 0.4);
+      color: var(--accent-blue);
+      font-family: 'Klee One', cursive;
+      font-size: 0.92rem;
+      letter-spacing: 0.1em;
+    }
+    .toc-series-item {
+      list-style: none;
+      padding: 9px 12px 9px 28px;
+      cursor: pointer;
+      border-radius: 6px;
+      color: var(--text-mid);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s;
+    }
+    .toc-series-item:hover { background: rgba(74, 128, 176, 0.08); }
+    .toc-series-item .series-no-pill {
+      background: linear-gradient(135deg, #2a3a55 0%, #1a2540 100%);
+      color: #d8e6ff;
+      font-size: 0.7rem;
+      padding: 1px 7px;
+      border-radius: 9px;
+      font-family: 'Klee One', cursive;
+      flex-shrink: 0;
+    }
+
     .entry-title {
       font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
       font-size: 1.45rem;
@@ -1404,34 +1465,12 @@ const weeklyData = [
     tools_used: ["Claude", "React", "GitHub Pages", "Cowork"]
   },
   {
-    id: 11,
-    date: "2026-04-16",
-    title: "企画課の対話セッション計画書を作り、議事録AIツールを提案した",
-    emoji: "🗣️",
-    category: "ドキュメント生成 / 議事録AI",
-    tags: ["python-docx", "CLOVA Note", "Notta", "議事録AI", "ダイアログ", "ドキュメント自動生成"],
-    summary: "企画課の少人数対話セッション「ふうけい対話」の計画書をWordで自動生成。あわせてセッションの録音→AI文字起こしに使えるCLOVA NoteとNottaを調べて提案した。",
-    what_i_did: "企画課で実施予定の対話セッション「ふうけい対話」の第3回計画をClaudeに依頼し、docxスキルを使って計画書を自動生成した。「問いは1本だけ・順番なし・まとめない」という対話設計の方針をClaudeが反映してくれた。セッション後の振り返りには手書きではなくAIの文字起こしを使いたいと思い、「対面録音に使えるAI議事録ツール（無料）」をClaudeに調べてもらった。LINE提供のCLOVA Note（日本語精度が高く話者分離対応）とNotta（月120分まで無料）の2択を提案してもらい、外付けマイクを置くと精度が上がるアドバイスも得た。",
-    explanation: {
-      title: "AI議事録ツールとは？CLOVA Noteの仕組み",
-      content: "AI議事録ツールとは、会議や対話を録音してAIが自動で文字に起こし、要約まで生成してくれるサービスです。手書きメモや後からの書き起こし作業が不要になります。\n\nCLOVA NoteはLINEが提供するサービスで、「誰が話したか」を自動で区別する「話者分離」機能が特徴です。Aさんの発言とBさんの発言を色分けして表示してくれます。PCブラウザから直接録音でき、終了後すぐにAI要約が生成されます。",
-      points: [
-        "CLOVA Note＝LINEのAI議事録サービス。日本語精度が高く、話者分離（誰が話したか）に対応",
-        "Notta＝月120分まで無料のAI文字起こしツール。PCアプリあり、3回×30分の会議なら無料枠で収まる",
-        "話者分離＝録音の中から「AさんとBさんの声を区別」してラベルを付ける技術。対面会議の議事録に便利",
-        "python-docx（docxスキル）＝Claudeが内部で使うWordファイル生成ライブラリ。計画書・報告書をコードで自動生成できる",
-        "外付けマイク＝内蔵マイクより音質が良いため、AI文字起こし精度が上がる。卓上に1つ置くだけでOK"
-      ]
-    },
-    difficulty: 2,
-    tools_used: ["Claude", "CLOVA Note", "Notta", "python-docx", "Cowork"]
-  },
-  {
     id: 12,
     date: "2026-04-17",
     title: "社会派DEEP Labサイトを構築し、特集FMTコンテンツを2本公開した",
     emoji: "🏛️",
     category: "GitHub Pages / コンテンツ設計",
+    series: { name: "DEEP Lab連載", number: 1, total: 5, subtitle: "立ち上げ" },
     tags: ["GitHub Pages", "PWA", "特集FMT", "著作権対応", "パラフレーズ", "コンテンツ設計", "DEEP Lab"],
     summary: "社会派コンテンツをまとめる「DEEP Lab」ポータルサイトを構築し、特集FMT形式で統一した「推し活消費」「日本の貧困」2本をGitHub Pagesで公開。著作権対応のパラフレーズ版も作成した。",
     what_i_did: "複数の社会派・マーケティング特集コンテンツをまとめるポータルサイト「社会派 DEEP Lab」を新規構築してGitHub Pagesで公開した。特集FMT（Claudeと決めたコンテンツのフォーマット）に準拠した記事2本を同日公開——①推し活が変える消費の地図、②日本の貧困と消費格差。著作権対応として、直接引用箇所をすべてパラフレーズに書き換えた社外公開版も別途作成。さらにTOKOコンテンツ全体の設計指針をMarkdownドキュメント（TOKO-formats.md）として整理・保存した。各サイトにはPWA対応（manifest.json・深海サーチライトデザインのアイコン）も施した。",
@@ -1455,6 +1494,7 @@ const weeklyData = [
     title: "DEEP Labの記事データをarticles.jsに分離してメンテしやすくした",
     emoji: "📂",
     category: "データ分離 / リファクタリング",
+    series: { name: "DEEP Lab連載", number: 2, total: 5, subtitle: "構造改善（articles.js）" },
     tags: ["articles.js", "データ分離", "リファクタリング", "DEEP Lab", "もちもち特集", "日付降順ソート"],
     summary: "DEEP Labサイトの記事一覧データをHTMLから外出しし、articles.jsという別ファイルに分離。新しい「もちもち特集」も同じ仕組みで追加して、記事追加のたびにHTMLを直接編集しなくて済むようにした。",
     what_i_did: "これまでDEEP Labのトップページは記事一覧データがHTMLの中に直接書かれていて、新しい記事を追加するたびにHTMLを開いて手で編集していた。Claudeに頼んでarticles.jsという別ファイルにデータだけを切り出し、HTML側はそれを読み込んで表示するだけの構造にリファクタリング。同じ流れで「もちもち特集」を新記事として1件追加した。さらにカード表示を日付降順に自動ソートする処理も入れて、新しい記事が常に左に並ぶようにした。最後にPWAアイコンを角丸の正方形ベースに刷新し、検索ボックスにautocomplete=offを設定して入力履歴が残らないようにする小さな改善も同日に重ねた。",
@@ -1524,6 +1564,7 @@ const weeklyData = [
     title: "DEEP Labに「PB（プライベートブランド）」特集を追加した",
     emoji: "🛒",
     category: "コンテンツ追加 / DEEP Lab",
+    series: { name: "DEEP Lab連載", number: 3, total: 5, subtitle: "コンテンツ追加（PB特集）" },
     tags: ["PB", "プライベートブランド", "DEEP Lab", "articles.js", "特集FMT", "新着タイムリー"],
     summary: "DEEP Labに新しい記事「PB特集」を1本追加。articles.jsへの追記だけでトップカードに自動で並ぶ運用を初めて実体験した。あわせて新着の見え方も微調整した。",
     what_i_did: "先週リファクタリングしたarticles.js方式を、新記事追加で初めて使ってみた。pb-tokushu.html（720行）を特集FMTに準拠して書き上げ、articles.js に1件追記しただけでトップページのカードに自動で並んだ。HTMLを直接いじる必要がなく、追加にかかる手間が劇的に減った実感があった。あわせて画像差替え（AI売場・イーロンの画像）と「新着」バッジが新鮮に見える微修正も同日に重ねた。",
@@ -1571,6 +1612,7 @@ const weeklyData = [
     title: "DEEP Labの社内紹介PDFをPython（reportlab+qrcode）で自動生成した",
     emoji: "📄",
     category: "Python / PDF自動生成",
+    series: { name: "DEEP Lab連載", number: 4, total: 5, subtitle: "配布資料化（紹介PDF）" },
     tags: ["reportlab", "qrcode", "PDF生成", "DEEP Lab", "Yu Gothic", "make_intro_pdf.py"],
     summary: "DEEP Labを社内に紹介するための資料PDFを、Pythonコード（make_intro_pdf.py）で自動生成。reportlabでA4レイアウトを組み、qrcodeでサイトURLのQRを埋め込み、Yu GothicフォントでDEEP Labの世界観に合わせた紙面に仕上げた。",
     what_i_did: "DEEP Labのコンセプト・代表記事・サイトURLを社内に伝えたくて、Claudeに依頼して紹介PDFをPythonで自動生成する仕組みを作った。reportlabでA4のレイアウトを組み、サイトのカラーパレット（NAVYやREDなど）をそのまま反映。フォントはWindowsに最初から入っているYu Gothicの太字（YuGothB.ttc）と中字（YuGothM.ttc）を直接登録して使った。サイトのURLはqrcodeライブラリでQRコード化して紙面右下に配置。完成したdeep-lab-site_intro.pdfはリポジトリにそのままコミットして、欲しい人がいつでもダウンロードできる形にした。あわせてAI売場記事は今回いったんカット（articles.jsから削除）し、紙面の「代表記事」枠の選定も整理した。",
@@ -1595,6 +1637,7 @@ const weeklyData = [
     title: "DEEP Lab全9ページにGA4トラッキングタグを一括導入し、韓国コスメ消費の特集も公開した",
     emoji: "📊",
     category: "アクセス解析 / GA4",
+    series: { name: "DEEP Lab連載", number: 5, total: 5, subtitle: "計測導入（GA4）" },
     tags: ["GA4", "Google Analytics", "gtag.js", "アクセス解析", "DEEP Lab", "韓国コスメ", "イオン広島府中"],
     summary: "Claudeに依頼してDEEP Labのトップ＋特集8本、計9ページ分にGA4タグ（G-W4EKTRW9RX）を一気に挿入。誰がどの記事を読んでいるかが見えるサイトに進化した。あわせて新特集「イオン広島府中の改装から見るコスメ消費の現状」も同日公開した。",
     what_i_did: "DEEP Labを公開してきたが「実際に読まれているのか」がまったく見えなかったので、Google Analytics 4を導入することにした。Claudeに『全ページに同じGA4タグを入れて』と依頼すると、index.html・anime-ai-gundam・anthropic・hasegawa・mochimochi・oshi-katsu・pb・xai-grok・kaimono-fukei の9ファイルに同じgtag.jsスニペットを一括で挿入してくれた。トラッキングIDはG-W4EKTRW9RX。あわせて新特集「韓国コスメ消費の現状（イオン広島府中の改装を切り口に）」を704行のHTMLで公開し、articles.jsにも追記。最後に各カードの『画像はイメージです』の表記をtagLabelとして全件で統一する整理も済ませた。",
@@ -1709,8 +1752,8 @@ const weeklyReviews = [
     week: 5,
     learningLevel: 5,
     levelLabel: "自走創造期",
-    levelComment: "AIを始めて5週目。今週は「使う」から「作って公開する」への完全移行が見えました。リズムゲームを仕様書から1日で完成、社会派コンテンツサイトを2本同日公開、企画課の対話設計までClaudeと一緒に設計しています。「やりたいことをClaudeに伝えれば形になる」という確信が行動の幅を広げています。",
-    techAcquired: ["Reactゲーム開発", "タイミング判定ロジック", "PWAアイコン設計", "特集FMT", "著作権対応（パラフレーズ）", "CLOVA Note", "コンテンツ設計文書化"],
+    levelComment: "AIを始めて5週目。今週は「使う」から「作って公開する」への完全移行が見えました。リズムゲームを仕様書から1日で完成、社会派コンテンツサイトDEEP Labも特集FMTを揃えてゼロから立ち上げ。「やりたいことをClaudeに伝えれば形になる」という確信が行動の幅を広げています。",
+    techAcquired: ["Reactゲーム開発", "タイミング判定ロジック", "PWAアイコン設計", "特集FMT", "著作権対応（パラフレーズ）", "コンテンツ設計文書化"],
     recommendations: [
       {
         icon: "🍒",
@@ -1718,20 +1761,20 @@ const weeklyReviews = [
         reason: "ゲームの基盤は完成しています。「Easy/Normal/Hard」の3モードを追加するだけで、より多くの人に使ってもらえる作品になります。タイミング判定の±ms数値を変えるだけなので、今週学んだロジックの応用練習にもなります。"
       },
       {
-        icon: "📝",
-        title: "CLOVA Noteでふうけい対話を実際に録音してみる",
-        reason: "今週はツールを調べて提案するところまでやりました。次は実際にCLOVA Noteを使って第3回セッションを録音し、AIの文字起こし精度を体験しましょう。「調べる→試す→改善する」のサイクルが大切です。"
-      },
-      {
         icon: "📚",
         title: "TOKO-formats.mdを定期的に育てる習慣をつける",
         reason: "コンテンツの設計指針をMarkdownで文書化した「暗黙知の形式知化」は非常に重要な一歩です。特集FMTの新パターンや気づきを週1回追記する習慣をつけると、チームへの展開や将来の自動化につながります。"
+      },
+      {
+        icon: "🏛️",
+        title: "DEEP Labを連載シリーズとして育てる",
+        reason: "立ち上げた DEEP Lab は、このあと連載シリーズとして育てていく価値があります。まずは『何回までやるか』『毎月何本ペースで増やすか』だけでも決めておくと、書きためた特集が一覧で『連載』に見えるようになります。"
       }
     ],
     tips: [
       { icon: "💡", text: "仕様書を先に作ってからコーディングする流れが定着してきました。「やりたいことを文章にまとめる→Claudeに渡す」の2ステップで、ゼロからゲームや複雑なサイトが作れます。" },
       { icon: "💡", text: "著作権対応はAIに頼めます。「この文章の直接引用をパラフレーズに変えて」と言うだけで、数値・事実はそのままに表現を書き換えてくれます。" },
-      { icon: "💡", text: "「どのツールを使えばいいか」もClaudeに聞けます。今週のCLOVA Note調査のように、条件（無料・日本語・対面録音）を伝えると最適な選択肢を比較して提示してくれます。" }
+      { icon: "💡", text: "サイトをゼロから立ち上げる作業は、特集FMTのような『型』を先にClaudeと決めておくと、2本目以降の制作スピードが一気に上がります。" }
     ]
   },
   {
@@ -1914,6 +1957,32 @@ function renderTOC() {
   const weeks = Object.keys(byWeek).map(Number).sort((a,b) => b - a);
 
   const appendixLink = `<li class="toc-appendix-link" onclick="goToAppendix()">📎 付録　AIスタック解説ガイド（全14ツール）</li>`;
+
+  // ===== シリーズ別ブロック（連載） =====
+  const seriesGroups = {};
+  data.forEach(e => {
+    if (!e.series) return;
+    if (!seriesGroups[e.series.name]) seriesGroups[e.series.name] = [];
+    seriesGroups[e.series.name].push(e);
+  });
+  const seriesBlocks = Object.keys(seriesGroups).map(name => {
+    const list = seriesGroups[name].sort((a, b) => a.series.number - b.series.number);
+    const total = list[0].series.total;
+    const items = list.map(e => `
+      <li class="toc-series-item" onclick="goToEntry(${e.id})">
+        <span class="series-no-pill">#${e.series.number}</span>
+        <div class="toc-info">
+          <div class="toc-title">${e.emoji} ${e.series.subtitle}</div>
+          <div class="toc-meta">
+            <span class="toc-date">📅 ${fmtDate(e.date)}</span>
+          </div>
+        </div>
+      </li>`).join('');
+    return `
+      <li class="toc-series-header">🔗 ${name}（全${total}回）</li>
+      ${items}`;
+  }).join('');
+
   tocEl.innerHTML = weeks.map(w => {
     const entries = byWeek[w];
     const items = entries.map(e => `
@@ -1938,7 +2007,14 @@ function renderTOC() {
       </li>
       ${items}
       ${reviewLink}`;
-  }).join('') + appendixLink;
+  }).join('') + seriesBlocks + appendixLink;
+}
+
+function goToSeries(name) {
+  // 連載の最初のエントリーへジャンプ（番号#1）
+  const list = data.filter(e => e.series && e.series.name === name)
+                   .sort((a, b) => a.series.number - b.series.number);
+  if (list.length) goToEntry(list[0].id);
 }
 
 function renderEntries() {
@@ -1948,6 +2024,7 @@ function renderEntries() {
       <div class="rings">${makeRings()}</div>
       <div class="entry-content">
         <div class="week-badge">📔 Week ${e.week} <span style="opacity:.6;font-size:.85em">${weekRange(e.week)}</span></div>
+        ${e.series ? `<div class="series-badge" onclick="goToSeries('${e.series.name}')">🔗 ${e.series.name} <span class="series-no">#${e.series.number}/${e.series.total}</span><span class="series-sub">${e.series.subtitle}</span></div>` : ''}
         <h2 class="entry-title">${e.emoji} ${e.title}</h2>
         <div class="entry-meta">
           <span class="entry-date">📅 ${fmtDate(e.date)}</span>
