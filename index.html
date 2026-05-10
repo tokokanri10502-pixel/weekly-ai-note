@@ -1813,14 +1813,20 @@ const weeklyReviews = [
 ================================================================ */
 const diffLabels = ['', 'かんたん', 'まあまあ', 'ちょっと難しい', '難しい', 'かなり難しい'];
 const WEEK_START = new Date('2026-03-14'); // 第1週の土曜日
+// GW週（本来のWeek 8: 5/2-5/8）はスキップし、5/9〜をWeek 8として扱う
+const GW_SKIP_FROM = new Date('2026-05-09');
 
 function getWeekNum(dateStr) {
   const d = new Date(dateStr);
-  return Math.floor((d - WEEK_START) / (7 * 86400000)) + 1;
+  let w = Math.floor((d - WEEK_START) / (7 * 86400000)) + 1;
+  if (d >= GW_SKIP_FROM) w -= 1;
+  return w;
 }
 
 function weekRange(n) {
-  const sat = new Date(WEEK_START.getTime() + (n-1) * 7 * 86400000);
+  // Week 8以降はGW週（本来のWeek 8）をスキップした分だけずらす
+  const offset = n >= 8 ? n + 1 : n;
+  const sat = new Date(WEEK_START.getTime() + (offset-1) * 7 * 86400000);
   const fri = new Date(sat.getTime() + 6 * 86400000);
   const fmt = d => `${d.getMonth()+1}/${d.getDate()}`;
   return `${fmt(sat)}〜${fmt(fri)}`;
